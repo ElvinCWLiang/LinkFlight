@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_imgsize">50dp</dimen>
+    <dimen name="default_txtsize">20dp</dimen>
+    <declare-styleable name="imgtextview">
+        <attr name="imgsrc" format="reference"></attr>
+        <attr name="txtstring" format="string"></attr>
+    </declare-styleable>
+</resources>

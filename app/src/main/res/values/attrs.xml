@@ -6,4 +6,11 @@
         <attr name="imgsrc" format="reference"></attr>
         <attr name="txtstring" format="string"></attr>
     </declare-styleable>
+
+    <dimen name="default_txtTitleSize">20dp</dimen>
+    <dimen name="default_txtContentSize">16dp</dimen>
+    <declare-styleable name="Detailtextview">
+        <attr name="txtTitle" format="string"></attr>
+        <attr name="txtContent" format="string"></attr>
+    </declare-styleable>
 </resources>

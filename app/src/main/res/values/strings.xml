@@ -1,4 +1,20 @@
 <resources>
-    <string name="app_name">LinkUTracker</string>
-    <string name="title_activity_maps">MapsActivity</string>
-</resources>
+    <string name="app_name">LinkUFlightTracker</string>
+    <string name="title_activity_maps">LinkUFlightTracker</string>
+    <string name="longitude">LONGITUDE</string>
+    <string name="latitude">LATITUDE</string>
+    <string name="velocity">VELOCITY</string>
+    <string name="track">TRACK</string>
+    <string name="altitude">ALTITUDE</string>
+    <string name="registration">REGISTRATION</string>
+    <string name="type">TYPE</string>
+    <string name="scheduled">SCHEDULED</string>
+    <string name="actual">ACTUAL</string>
+    <string name="estimated">ESTIMATED</string>
+    <string name="calaltitude">CALIBRATED ALT</string>
+    <string name="speed">SPEED</string>
+    <string name="departed">DEPARTED</string>
+    <string name="arriving">ARRIVING</string>
+    <string name="callsign">CALLSIGN</string>
+    <string name="route">ROUTE</string>
+</resources>:

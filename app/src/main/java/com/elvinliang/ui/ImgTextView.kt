@@ -2,6 +2,7 @@ package com.elvinliang.ui
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -13,7 +14,7 @@ import com.elvinliang.aviation.R
 class ImgTextView: ConstraintLayout {
     var imgsize = resources.getDimensionPixelSize(R.dimen.default_imgsize)
     var imgsrc = ResourcesCompat.getDrawable(resources, android.R.drawable.alert_dark_frame, null)
-    var txtstring = "aaa"
+    var txtstring = "Title"
     var txtsize = resources.getDimensionPixelSize(R.dimen.default_txtsize)
 
     constructor(context: Context) : super(context) {
@@ -36,11 +37,12 @@ class ImgTextView: ConstraintLayout {
         typedArray.recycle()
     }
 
+
     private fun initView(){
         val c : View = inflate(context, R.layout.component_imgtextview, this)
 
         val img = c.findViewById<ImageView>(R.id.img)
-        val text = c.findViewById<TextView>(R.id.txv)
+        val text = c.findViewById<TextView>(R.id.txv_title)
         val imglayoutparams = ConstraintLayout.LayoutParams(imgsize, imgsize)
 
         img.layoutParams = imglayoutparams
@@ -49,4 +51,10 @@ class ImgTextView: ConstraintLayout {
         text.text = txtstring
         text.layoutParams = ConstraintLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
     }
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+    }
+
+
 }

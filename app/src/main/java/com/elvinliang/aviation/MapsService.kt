@@ -9,7 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-//@Deprecated
+@Deprecated("we use handler to do the frequency event")
 class MapsService: Service() {
     private val TAG = "ev_".plus(javaClass.simpleName)
     val binder = MapsBinder()

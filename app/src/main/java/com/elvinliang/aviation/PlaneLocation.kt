@@ -6,7 +6,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.google.gson.Gson
 
-//@Deprecated
+@Deprecated("for WorkManager")
 class PlaneLocation(appContext: Context, workerParams: WorkerParameters):
     Worker(appContext, workerParams) {
     val TAG = "ev_" + javaClass.simpleName

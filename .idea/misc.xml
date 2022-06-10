@@ -4,8 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/CheWei Liang/LinkUTracker/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/CheWei Liang/LinkUTracker/app/src/main/res/layout/activity_maps.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/CheWei Liang/LinkUTracker/app/src/main/res/layout/component_imgtextview.xml" value="0.2" />
+        <entry key="..\:/Users/CheWei Liang/LinkUTracker/app/src/main/res/layout/activity_maps.xml" value="0.2" />
+        <entry key="..\:/Users/CheWei Liang/LinkUTracker/app/src/main/res/layout/component_detailtextview.xml" value="0.2890625" />
+        <entry key="..\:/Users/CheWei Liang/LinkUTracker/app/src/main/res/layout/component_imgtextview.xml" value="0.1" />
+        <entry key="..\:/Users/CheWei Liang/LinkUTracker/app/src/main/res/layout/layout_flight_detail.xml" value="0.4" />
+        <entry key="..\:/Users/CheWei Liang/LinkUTracker/app/src/main/res/layout/layout_flight_introduction.xml" value="0.4" />
+        <entry key="..\:/Users/CheWei Liang/LinkUTracker/app/src/main/res/layout/layout_flight_introduction1.xml" value="0.12083333333333333" />
+        <entry key="..\:/Users/CheWei Liang/LinkUTracker/app/src/main/res/layout/layout_float_settings.xml" value="0.1" />
+        <entry key="..\:/Users/CheWei Liang/LinkUTracker/app/src/main/res/menu/menu_bottom_navigation.xml" value="0.1" />
       </map>
     </option>
   </component>

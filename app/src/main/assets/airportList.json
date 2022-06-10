@@ -1,0 +1,114 @@
+[
+  {
+    "name": "Taoyuan Intl",
+    "city": "Taipei",
+    "country": "Taiwan",
+    "iata_code": "TPE",
+    "lat": 25.077731,
+    "lng": 121.232822
+  },
+  {
+    "name": "Kaohsiung Intl",
+    "city": "Kaohsiung",
+    "country": "Taiwan",
+    "iata_code": "KHH",
+    "lat": 22.577094,
+    "lng": 120.350006
+  },
+  {
+    "name": "Sungshan",
+    "city": "Taipei",
+    "country": "Taiwan",
+    "iata_code": "TSA",
+    "lat": 25.069722,
+    "lng": 121.5525
+  },
+  {
+    "name": "Ching Chuang Kang",
+    "city": "Taichung",
+    "country": "Taiwan",
+    "iata_code": "RMQ",
+    "lat": 24.264668,
+    "lng": 120.62058
+  },
+  {
+    "name": "Magong",
+    "city": "Makung",
+    "country": "Taiwan",
+    "iata_code": "MZG",
+    "lat": 23.568669,
+    "lng": 119.628311
+  },
+  {
+    "name": "Shang Yi",
+    "city": "Kinmen",
+    "country": "Taiwan",
+    "iata_code": "KNH",
+    "lat": 24.427892,
+    "lng": 118.359197
+  },
+  {
+    "name": "Hualien",
+    "city": "Hualien",
+    "country": "Taiwan",
+    "iata_code": "HUN",
+    "lat": 24.023725,
+    "lng": 121.616906
+  },
+  {
+    "name": "Tainan",
+    "city": "Tainan",
+    "country": "Taiwan",
+    "iata_code": "TNN",
+    "lat": 22.950361,
+    "lng": 120.205778
+  },
+  {
+    "name": "Fengnin",
+    "city": "Fengnin",
+    "country": "Taiwan",
+    "iata_code": "TTT",
+    "lat": 22.754986,
+    "lng": 121.101681
+  },
+  {
+    "name": "Ruzyne",
+    "city": "Prague",
+    "country": "Czech Republic",
+    "iata_code": "PRG",
+    "lat": 50.100833,
+    "lng": 14.26
+  },
+  {
+    "name": "Hong Kong Intl",
+    "city": "Hong Kong",
+    "country": "Hong Kong",
+    "iata_code": "HKG",
+    "lat": 22.308919,
+    "lng": 113.914603
+  },
+  {
+    "name": "Narita Intl",
+    "city": "Tokyo",
+    "country": "Japan",
+    "iata_code": "NRT",
+    "lat": 35.764722,
+    "lng": 140.386389
+  },
+  {
+    "name": "Changi Intl",
+    "city": "Singapore",
+    "country": "Singapore",
+    "iata_code": "SIN",
+    "lat": 1.350189,
+    "lng": 103.994433
+  },
+  {
+    "name": "San Francisco Intl",
+    "city": "San Francisco",
+    "country": "United States",
+    "iata_code": "SFO",
+    "lat": 37.618972,
+    "lng": -122.374889
+  }
+]

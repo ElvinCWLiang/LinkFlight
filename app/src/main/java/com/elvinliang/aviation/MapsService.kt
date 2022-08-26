@@ -12,11 +12,9 @@ import retrofit2.Response
 @Deprecated("we use handler to do the frequency event")
 class MapsService: Service() {
     private val TAG = "ev_".plus(javaClass.simpleName)
-    val binder = MapsBinder()
+    private val binder = MapsBinder()
 
     override fun onBind(intent: Intent?): IBinder? {
-
-
         return binder
     }
 

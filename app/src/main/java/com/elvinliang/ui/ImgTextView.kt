@@ -43,9 +43,9 @@ class ImgTextView: ConstraintLayout {
 
         val img = c.findViewById<ImageView>(R.id.img)
         val text = c.findViewById<TextView>(R.id.txv_title)
-        val imglayoutparams = ConstraintLayout.LayoutParams(imgsize, imgsize)
+        val imgLayoutParams = ConstraintLayout.LayoutParams(imgsize, imgsize)
 
-        img.layoutParams = imglayoutparams
+        img.layoutParams = imgLayoutParams
         img.setImageDrawable(imgsrc)
 
         text.text = txtstring

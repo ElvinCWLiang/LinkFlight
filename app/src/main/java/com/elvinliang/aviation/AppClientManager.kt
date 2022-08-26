@@ -15,18 +15,18 @@ class AppClientManager() {
     init {
         retrofitOpenSkyNetwork = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .client(client_OpenSkyNetwork())
+            .client(clientOpenSkyNetwork())
             .baseUrl(Config.URL_OpenSkyNetwork)
             .build()
 
         retrofitFlightAware = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .client(client_FlightAware())
+            .client(clientFlightAware())
             .baseUrl(Config.URL_FlightAware)
             .build()
     }
 
-    fun client_OpenSkyNetwork(): OkHttpClient? {
+    private fun clientOpenSkyNetwork(): OkHttpClient? {
         return OkHttpClient.Builder()
             .connectTimeout(5, TimeUnit.MINUTES)
             .readTimeout(30, TimeUnit.SECONDS)
@@ -34,7 +34,7 @@ class AppClientManager() {
             .build()
     }
 
-    fun client_FlightAware(): OkHttpClient? {
+    private fun clientFlightAware(): OkHttpClient? {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request: Request = chain.request()

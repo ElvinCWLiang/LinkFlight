@@ -1,7 +1,6 @@
-package com.elvinliang.aviation
+package com.elvinliang.remote
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class Posts(
     @SerializedName("time")
@@ -50,13 +49,13 @@ data class PlaneModel(
     var time: Int? = 0
 )
 
-data class Posts_PlaneModel_Detail(
+data class PostsPlaneModelDetail(
     @SerializedName("flights")
-    var flights: List<PlaneModel_Detail>
+    var flights: List<PlaneModelDetail>
 )
 
 /* FlightAware Api */
-data class PlaneModel_Detail(
+data class PlaneModelDetail(
 
     /*
           "ident": "MDA2372",

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.elvinliang.aviation.databinding.ActivityMapsBinding
+import com.elvinliang.aviation.databinding.ViewFlightDetailBinding
 import com.elvinliang.remote.AirportModel
 import com.elvinliang.remote.PlaneModel
 import com.elvinliang.remote.PlaneModelDetail
@@ -19,14 +20,19 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.component_detailtextview.view.*
-import kotlinx.android.synthetic.main.layout_flight_detail.view.*
-import kotlinx.android.synthetic.main.layout_flight_introduction.view.*
+import kotlinx.android.synthetic.main.view_flight_detail.view.*
+import kotlinx.android.synthetic.main.view_flight_introduction.view.*
 
+@AndroidEntryPoint
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val TAG = "ev_".plus(javaClass.simpleName)
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+
+    private lateinit var detailBinding: ViewFlightDetailBinding
+
 
     private lateinit var mapsActivityViewModel: MapsViewModel
     private val locationTaiwan = LatLng(20.0, 121.0)
@@ -53,8 +59,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             ViewModelProvider(this).get(MapsViewModel::class.java)
         binding.mapsactivityViewModel = mapsActivityViewModel
 
-        viewDetail = LayoutInflater.from(this).inflate(R.layout.layout_flight_detail, null)
-        viewIntro = LayoutInflater.from(this).inflate(R.layout.layout_flight_introduction, null)
+        viewDetail = LayoutInflater.from(this).inflate(R.layout.view_flight_detail, null)
+        viewIntro = LayoutInflater.from(this).inflate(R.layout.view_flight_introduction, null)
 
         initVariable()
         initView()
@@ -81,7 +87,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     if (!isShowDetail) {
                         binding.layoutBottomViewContainer.removeAllViews()
                         binding.layoutBottomViewContainer.addView(viewDetail)
+
                         isShowDetail = true
+
                         viewDetail.txv_aircraft_type_detail.txv_content.text = selectedPlaneModelDetail?.aircraft_type ?: "None"
                         viewDetail.txv_aircraft_registration_detail.txv_content.text = selectedPlaneModelDetail?.registration ?: "None"
                         viewDetail.txv_altitude_detail.txv_content.text = selectedPlaneModel?.baro_altitude.toString()

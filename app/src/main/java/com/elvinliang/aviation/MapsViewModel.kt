@@ -1,18 +1,26 @@
 package com.elvinliang.aviation
 
 import android.app.Application
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.elvinliang.remote.*
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ActivityContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class MapsViewModel(application: Application) : AndroidViewModel(application){
+@HiltViewModel
+class MapsViewModel(
+    @ActivityContext private val context: Context
+) : ViewModel(){
 
     private val TAG = "ev_" + javaClass.simpleName
     val _planeLocation = MutableLiveData<List<PlaneModel>>()
@@ -27,6 +35,7 @@ class MapsViewModel(application: Application) : AndroidViewModel(application){
     var lamin : Float = 21F
     init {
         Log.i(TAG, "init")
+
         Looper.myLooper()?.let {
             Handler(it).post(object : Runnable {
                 override fun run() {

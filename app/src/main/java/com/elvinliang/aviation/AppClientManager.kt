@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-class AppClientManager() {
+class AppClientManager {
     private val retrofitOpenSkyNetwork: Retrofit
     private val retrofitFlightAware: Retrofit
 

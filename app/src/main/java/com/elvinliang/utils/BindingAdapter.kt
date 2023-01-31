@@ -10,14 +10,16 @@ object BindingAdapter {
     @JvmStatic
     @BindingAdapter("onNavigationItemSelected")
     fun setOnNavigationItemSelected(
-        view: BottomNavigationView, listener: NavigationBarView.OnItemSelectedListener?
+        view: BottomNavigationView,
+        listener: NavigationBarView.OnItemSelectedListener?
     ) {
         view.setOnItemSelectedListener(listener)
     }
 
     @BindingAdapter("selectedItemPosition")
     fun setSelectedItemPosition(
-        view: BottomNavigationView, position: Int
+        view: BottomNavigationView,
+        position: Int
     ) {
         view.selectedItemId = position
     }

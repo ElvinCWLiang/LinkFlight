@@ -18,9 +18,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
-class MapsViewModel(
-    @ActivityContext private val context: Context
-) : ViewModel(){
+class MapsViewModel @Inject constructor() : ViewModel(){
 
     private val TAG = "ev_" + javaClass.simpleName
     val _planeLocation = MutableLiveData<List<PlaneModel>>()
@@ -119,7 +117,7 @@ class MapsViewModel(
                                 ,list.states[i][14] as String?
                                 ,(list.states[i][15] as Boolean)
                                 ,(list.states[i][16] as Double).toInt()
-                                ,(list.states[i][17] as Double).toInt()
+                               // ,(list.states[i][17] as Double).toInt()
                                 ,(list.time))
                             mPlaneList.add(c)
                         }

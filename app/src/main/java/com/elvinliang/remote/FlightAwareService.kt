@@ -5,17 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface ApiService {
-/* OpenSkyNetwork Api */
-    // api/states/all?lamin=45.8389&lomin=5.9962&lamax=47.8229&lomax=10.5226
-    @GET("/api/states/all")
-    fun index(@Query("lomax") lomax: Float
-              ,@Query("lomin") lomin: Float
-              ,@Query("lamax") lamax: Float
-              ,@Query("lamin") lamin: Float): Call<Posts>
-
-
-/* FlightAware Api */
+interface FlightAwareService {
     //https://aeroapi.flightaware.com/aeroapi/flights/JAL325?ident_type=designator
     @GET("/aeroapi/flights/{ident}") // Get information for a flight, $0.005 usd/set
     fun getflights(@Path("ident") callsign: String, @Query("ident_type") ident_type: String): Call<PostsPlaneModelDetail>

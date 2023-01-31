@@ -1,24 +1,23 @@
 package com.elvinliang.aviation
 
-import android.app.Application
-import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.elvinliang.remote.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ActivityContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
-class MapsViewModel @Inject constructor() : ViewModel(){
+class MapsViewModel @Inject constructor(
+    private val openSkyNetworkService: OpenSkyNetworkService,
+    private val flightAwareService: FlightAwareService
+) : ViewModel(){
 
     private val TAG = "ev_" + javaClass.simpleName
     val _planeLocation = MutableLiveData<List<PlaneModel>>()
@@ -55,9 +54,8 @@ class MapsViewModel @Inject constructor() : ViewModel(){
 //        Log.i(TAG, "jsonFileString1 = ${mlistPlaneModelDetail.get(0).destination?.code_iata}")
 //        _planeDetails.value = mlistPlaneModelDetail
 
-        val apiService = AppClientManager.client_FlightAware.create(ApiService::class.java)
         Log.i(TAG, "fetchPlaneDetail_id = $id")
-        apiService.getflights(id, "designator").enqueue(object : Callback<PostsPlaneModelDetail> {
+        flightAwareService.getflights(id, "designator").enqueue(object : Callback<PostsPlaneModelDetail> {
 
             override fun onResponse(
                 call: Call<PostsPlaneModelDetail>,
@@ -81,10 +79,9 @@ class MapsViewModel @Inject constructor() : ViewModel(){
     }
 
     fun fetchPlaneLocation(){
-        val apiService = AppClientManager.client_OpenSkyNetwork.create(ApiService::class.java)
         val mPlaneList = ArrayList<PlaneModel>()
         Log.i(TAG, "fetchPlaneLocation")
-        apiService.index(lomax, lomin, lamax, lamin).enqueue(object : Callback<Posts> {
+        openSkyNetworkService.index(lomax, lomin, lamax, lamin).enqueue(object : Callback<Posts> {
             override fun onResponse(call: Call<Posts>, response: Response<Posts>) {
                 val list = response.body()
                 // sample data:

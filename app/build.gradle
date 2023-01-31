@@ -71,4 +71,9 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.13.2'
 
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    debugImplementation 'com.facebook.flipper:flipper:0.177.0'
+    debugImplementation 'com.facebook.soloader:soloader:0.10.4'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.177.0'
+    releaseImplementation 'com.facebook.flipper:flipper-noop:0.177.0'
 }

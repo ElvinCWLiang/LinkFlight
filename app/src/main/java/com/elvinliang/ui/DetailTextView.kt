@@ -2,18 +2,14 @@ package com.elvinliang.ui
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Canvas
 import android.graphics.Typeface
 import android.util.AttributeSet
-import android.util.Log
-import android.view.View
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.elvinliang.aviation.R
 import kotlinx.android.synthetic.main.component_detailtextview.view.*
 
-class DetailTextView: ConstraintLayout {
+class DetailTextView : ConstraintLayout {
     val TAG = "ev_" + javaClass.simpleName
     var txtTitle = "Title"
     var txtTitleSize = resources.getDimensionPixelSize(R.dimen.default_txtTitleSize)
@@ -35,12 +31,12 @@ class DetailTextView: ConstraintLayout {
     }
 
     fun getvalues(typedArray: TypedArray) {
-        txtTitle = typedArray.getString(R.styleable.Detailtextview_txtTitle)?: "Title"
-        txtContent = typedArray.getString(R.styleable.Detailtextview_txtContent)?: "Content"
+        txtTitle = typedArray.getString(R.styleable.Detailtextview_txtTitle) ?: "Title"
+        txtContent = typedArray.getString(R.styleable.Detailtextview_txtContent) ?: "Content"
         typedArray.recycle()
     }
 
-    private fun initView(){
+    private fun initView() {
         inflate(context, R.layout.component_detailtextview, this)
         txv_title.text = txtTitle
         txv_title.typeface = Typeface.DEFAULT_BOLD

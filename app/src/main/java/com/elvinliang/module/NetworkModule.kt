@@ -12,18 +12,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import java.util.concurrent.TimeUnit
+import javax.inject.Named
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
-import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
     @Singleton
     @Provides
     @Named("OpenSkyNetworkClient")
@@ -46,7 +45,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    @Named("flightAwareClient")
+    @Named("FlightAwareClient")
     fun providesFlightAwareClient(): OkHttpClient {
         val okHttpClient = OkHttpClient.Builder()
         AndroidFlipperClient.getInstanceIfInitialized()?.let { flipperClient ->
@@ -75,30 +74,34 @@ object NetworkModule {
     @Singleton
     @Provides
     @Named("provideOpenSkyNetworkRetrofit")
-    fun provideOpenSkyNetworkRetrofit(@Named("OpenSkyNetworkClient") okHttpClient: OkHttpClient): Retrofit =
-        Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(URL_OpenSkyNetwork)
-            .client(okHttpClient)
-            .build()
+    fun provideOpenSkyNetworkRetrofit(
+        @Named("OpenSkyNetworkClient") okHttpClient: OkHttpClient
+    ): Retrofit = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(URL_OpenSkyNetwork)
+        .client(okHttpClient)
+        .build()
 
     @Singleton
     @Provides
     @Named("provideFlightAwareRetrofit")
-    fun provideFlightAwareRetrofit(@Named("flightAwareClient") okHttpClient: OkHttpClient): Retrofit =
-        Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(URL_FlightAware)
-            .client(okHttpClient)
-            .build()
+    fun provideFlightAwareRetrofit(
+        @Named("FlightAwareClient") okHttpClient: OkHttpClient
+    ): Retrofit = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(URL_FlightAware)
+        .client(okHttpClient)
+        .build()
 
     @Singleton
     @Provides
-    fun provideFlightAwareService(@Named("provideFlightAwareRetrofit") retrofit: Retrofit): FlightAwareService =
-        retrofit.create(FlightAwareService::class.java)
+    fun provideFlightAwareService(
+        @Named("provideFlightAwareRetrofit") retrofit: Retrofit
+    ): FlightAwareService = retrofit.create(FlightAwareService::class.java)
 
     @Singleton
     @Provides
-    fun provideOpenSkyNetworkService(@Named("provideOpenSkyNetworkRetrofit") retrofit: Retrofit): OpenSkyNetworkService =
-        retrofit.create(OpenSkyNetworkService::class.java)
+    fun provideOpenSkyNetworkService(
+        @Named("provideOpenSkyNetworkRetrofit") retrofit: Retrofit
+    ): OpenSkyNetworkService = retrofit.create(OpenSkyNetworkService::class.java)
 }

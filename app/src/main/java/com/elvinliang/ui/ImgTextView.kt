@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import com.elvinliang.aviation.R
 
-class ImgTextView: ConstraintLayout {
+class ImgTextView : ConstraintLayout {
     var imgsize = resources.getDimensionPixelSize(R.dimen.default_imgsize)
     var imgsrc = ResourcesCompat.getDrawable(resources, android.R.drawable.alert_dark_frame, null)
     var txtstring = "Title"
@@ -33,13 +33,12 @@ class ImgTextView: ConstraintLayout {
 
     fun getvalues(typedArray: TypedArray) {
         imgsrc = typedArray.getDrawable(R.styleable.imgtextview_imgsrc)
-        txtstring = typedArray.getString(R.styleable.imgtextview_txtstring)?: "nonono"
+        txtstring = typedArray.getString(R.styleable.imgtextview_txtstring) ?: "nonono"
         typedArray.recycle()
     }
 
-
-    private fun initView(){
-        val c : View = inflate(context, R.layout.component_imgtextview, this)
+    private fun initView() {
+        val c: View = inflate(context, R.layout.component_imgtextview, this)
 
         val img = c.findViewById<ImageView>(R.id.img)
         val text = c.findViewById<TextView>(R.id.txv_title)
@@ -55,6 +54,4 @@ class ImgTextView: ConstraintLayout {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
     }
-
-
 }

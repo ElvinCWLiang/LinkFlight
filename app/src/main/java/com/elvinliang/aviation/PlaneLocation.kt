@@ -8,7 +8,7 @@ import com.elvinliang.remote.PlaneModel
 import com.google.gson.Gson
 
 @Deprecated("for WorkManager")
-class PlaneLocation(appContext: Context, workerParams: WorkerParameters):
+class PlaneLocation(appContext: Context, workerParams: WorkerParameters) :
     Worker(appContext, workerParams) {
     val TAG = "ev_" + javaClass.simpleName
     override fun doWork(): Result {
@@ -21,7 +21,7 @@ class PlaneLocation(appContext: Context, workerParams: WorkerParameters):
         return Result.success()
     }
 
-    fun serializeToJson(mList : List<PlaneModel>) : String {
+    fun serializeToJson(mList: List<PlaneModel>): String {
         val gson = Gson()
         return gson.toJson(mList)
     }

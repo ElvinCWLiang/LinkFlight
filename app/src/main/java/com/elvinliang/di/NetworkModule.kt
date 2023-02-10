@@ -1,8 +1,8 @@
-package com.elvinliang.module
+package com.elvinliang.di
 
-import com.elvinliang.aviation.Config
-import com.elvinliang.aviation.Config.URL_FlightAware
-import com.elvinliang.aviation.Config.URL_OpenSkyNetwork
+import com.elvinliang.common.Constants
+import com.elvinliang.common.Constants.URL_FlightAware
+import com.elvinliang.common.Constants.URL_OpenSkyNetwork
 import com.elvinliang.remote.FlightAwareService
 import com.elvinliang.remote.OpenSkyNetworkService
 import com.facebook.flipper.android.AndroidFlipperClient
@@ -61,7 +61,7 @@ object NetworkModule {
             .addInterceptor { chain ->
                 val request: Request = chain.request()
                     .newBuilder()
-                    .addHeader("x-apiKey", Config.API_KEY)
+                    .addHeader("x-apiKey", Constants.API_KEY)
                     .build()
                 chain.proceed(request)
             }

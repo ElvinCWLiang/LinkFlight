@@ -1,4 +1,4 @@
-package com.elvinliang.aviation
+package com.elvinliang.presentation
 
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.elvinliang.aviation.MapsViewModel
+import com.elvinliang.aviation.R
 import com.elvinliang.aviation.databinding.ActivityMapsBinding
 import com.elvinliang.aviation.databinding.ViewFlightDetailBinding
 import com.elvinliang.remote.AirportModel

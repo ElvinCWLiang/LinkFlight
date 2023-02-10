@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.elvinliang.aviation.MapsViewModel
+import com.elvinliang.presentation.main_page.MapsViewModel
 import com.elvinliang.aviation.R
 import com.elvinliang.aviation.databinding.ActivityMapsBinding
 import com.elvinliang.aviation.databinding.ViewFlightDetailBinding

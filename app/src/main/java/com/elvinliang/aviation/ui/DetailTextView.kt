@@ -1,4 +1,4 @@
-package com.elvinliang.ui
+package com.elvinliang.aviation.ui
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -7,8 +7,6 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.elvinliang.aviation.R
-import kotlinx.android.synthetic.main.component_detailtextview.view.*
-
 class DetailTextView : ConstraintLayout {
     val TAG = "ev_" + javaClass.simpleName
     var txtTitle = "Title"
@@ -38,10 +36,10 @@ class DetailTextView : ConstraintLayout {
 
     private fun initView() {
         inflate(context, R.layout.component_detailtextview, this)
-        txv_title.text = txtTitle
-        txv_title.typeface = Typeface.DEFAULT_BOLD
-        txv_title.layoutParams = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-        txv_content.text = txtContent
-        txv_content.layoutParams = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+//        txv_title.text = txtTitle
+//        txv_title.typeface = Typeface.DEFAULT_BOLD
+//        txv_title.layoutParams = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+//        txv_content.text = txtContent
+//        txv_content.layoutParams = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
     }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.elvinliang.ui.DetailTextView
+    <com.elvinliang.aviation.ui.DetailTextView
         android:id="@+id/callsign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.elvinliang.ui.DetailTextView
+    <com.elvinliang.aviation.ui.DetailTextView
         android:id="@+id/flightmodel_intro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         app:layout_constraintStart_toEndOf="@+id/callsign"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.elvinliang.ui.DetailTextView
+    <com.elvinliang.aviation.ui.DetailTextView
         android:id="@+id/departed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/altitude"
         app:txtTitle="@string/departed" />
 
-    <com.elvinliang.ui.DetailTextView
+    <com.elvinliang.aviation.ui.DetailTextView
         android:id="@+id/arrival"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/altitude"
         app:txtTitle="@string/arriving" />
 
-    <com.elvinliang.ui.DetailTextView
+    <com.elvinliang.aviation.ui.DetailTextView
         android:id="@+id/altitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         app:txtContent="@string/altitude"
         app:txtTitle="@string/calaltitude" />
 
-    <com.elvinliang.ui.DetailTextView
+    <com.elvinliang.aviation.ui.DetailTextView
         android:id="@+id/speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

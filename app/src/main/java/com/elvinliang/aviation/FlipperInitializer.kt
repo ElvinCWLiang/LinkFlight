@@ -1,4 +1,4 @@
-package com.elvinliang
+package com.elvinliang.aviation
 
 import android.content.Context
 import com.elvinliang.aviation.BuildConfig

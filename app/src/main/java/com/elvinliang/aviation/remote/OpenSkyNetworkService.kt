@@ -1,5 +1,6 @@
-package com.elvinliang.remote
+package com.elvinliang.aviation.remote
 
+import com.elvinliang.remote.Posts
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -1,10 +1,10 @@
-package com.elvinliang.di
+package com.elvinliang.aviation.di
 
-import com.elvinliang.common.Constants
-import com.elvinliang.common.Constants.URL_FlightAware
-import com.elvinliang.common.Constants.URL_OpenSkyNetwork
-import com.elvinliang.remote.FlightAwareService
-import com.elvinliang.remote.OpenSkyNetworkService
+import com.elvinliang.aviation.common.Constants
+import com.elvinliang.aviation.common.Constants.URL_FlightAware
+import com.elvinliang.aviation.common.Constants.URL_OpenSkyNetwork
+import com.elvinliang.aviation.remote.FlightAwareService
+import com.elvinliang.aviation.remote.OpenSkyNetworkService
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin

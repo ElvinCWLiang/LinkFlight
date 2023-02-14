@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2">
 
-        <com.elvinliang.ui.DetailTextView
+        <com.elvinliang.aviation.ui.DetailTextView
             android:id="@+id/txv_scheduled_out_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -34,9 +34,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:txtTitle="@string/scheduled">
 
-        </com.elvinliang.ui.DetailTextView>
+        </com.elvinliang.aviation.ui.DetailTextView>
 
-        <com.elvinliang.ui.DetailTextView
+        <com.elvinliang.aviation.ui.DetailTextView
             android:id="@+id/txv_actual_in_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             app:layout_constraintTop_toBottomOf="@+id/txv_scheduled_in_detail"
             app:txtTitle="@string/estimated" />
 
-        <com.elvinliang.ui.DetailTextView
+        <com.elvinliang.aviation.ui.DetailTextView
             android:id="@+id/txv_scheduled_in_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:txtTitle="@string/scheduled" />
 
-        <com.elvinliang.ui.DetailTextView
+        <com.elvinliang.aviation.ui.DetailTextView
             android:id="@+id/txv_actual_out_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
 
 
-        <com.elvinliang.ui.DetailTextView
+        <com.elvinliang.aviation.ui.DetailTextView
             android:id="@+id/txv_aircraft_type_detail"
             android:layout_width="107dp"
             android:layout_height="47dp"
@@ -93,9 +93,9 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             app:txtTitle="@string/type">
 
-        </com.elvinliang.ui.DetailTextView>
+        </com.elvinliang.aviation.ui.DetailTextView>
 
-        <com.elvinliang.ui.DetailTextView
+        <com.elvinliang.aviation.ui.DetailTextView
             android:id="@+id/txv_aircraft_registration_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             app:txtTitle="@string/registration">
 
-        </com.elvinliang.ui.DetailTextView>
+        </com.elvinliang.aviation.ui.DetailTextView>
 
         <TextView
             android:id="@+id/textView3"
@@ -155,7 +155,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.elvinliang.ui.DetailTextView
+        <com.elvinliang.aviation.ui.DetailTextView
             android:id="@+id/txv_altitude_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -175,7 +175,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4"
             app:srcCompat="@drawable/speed" />
 
-        <com.elvinliang.ui.DetailTextView
+        <com.elvinliang.aviation.ui.DetailTextView
             android:id="@+id/txv_velocity_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4"
             app:txtTitle="@string/velocity" />
 
-        <com.elvinliang.ui.DetailTextView
+        <com.elvinliang.aviation.ui.DetailTextView
             android:id="@+id/txv_track_detail"
             android:layout_width="82dp"
             android:layout_height="wrap_content"
@@ -204,7 +204,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
-        <com.elvinliang.ui.DetailTextView
+        <com.elvinliang.aviation.ui.DetailTextView
             android:id="@+id/route"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -227,7 +227,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="TextContrastCheck" />
 
-        <com.elvinliang.ui.DetailTextView
+        <com.elvinliang.aviation.ui.DetailTextView
             android:id="@+id/txv_latitude_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView5"
             app:txtTitle="@string/latitude" />
 
-        <com.elvinliang.ui.DetailTextView
+        <com.elvinliang.aviation.ui.DetailTextView
             android:id="@+id/txv_longitude_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

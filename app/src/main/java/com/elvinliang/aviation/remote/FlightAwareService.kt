@@ -1,5 +1,8 @@
-package com.elvinliang.remote
+package com.elvinliang.aviation.remote
 
+import com.elvinliang.remote.AirportModel
+import com.elvinliang.remote.PlaneModelDetail
+import com.elvinliang.remote.PostsPlaneModelDetail
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -30,7 +30,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapsBinding
 
-    private lateinit var detailBinding: ViewFlightDetailBinding
+    private lateinit var detaileBinding: ViewFlightDetailBinding
 
     private lateinit var mapsActivityViewModel: MapsViewModel
     private val locationTaiwan = LatLng(20.0, 121.0)
@@ -57,6 +57,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             ViewModelProvider(this).get(MapsViewModel::class.java)
         binding.mapsactivityViewModel = mapsActivityViewModel
 
+        detaileBinding = ViewFlightDetailBinding.inflate(layoutInflater)
         viewDetail = LayoutInflater.from(this).inflate(R.layout.view_flight_detail, null)
         viewIntro = LayoutInflater.from(this).inflate(R.layout.view_flight_introduction, null)
 
@@ -88,35 +89,35 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                         isShowDetail = true
 
-//                        viewDetail.txv_aircraft_type_detail.txv_content.text =
-//                            selectedPlaneModelDetail?.aircraft_type ?: "None"
-//                        viewDetail.txv_aircraft_registration_detail.txv_content.text =
-//                            selectedPlaneModelDetail?.registration ?: "None"
-//                        viewDetail.txv_altitude_detail.txv_content.text =
-//                            selectedPlaneModel?.baro_altitude.toString()
-//                        viewDetail.txv_track_detail.txv_content.text =
-//                            selectedPlaneModel?.true_track.toString()
-//                        viewDetail.txv_velocity_detail.txv_content.text =
-//                            selectedPlaneModel?.velocity.toString()
-//                        viewDetail.txv_latitude_detail.txv_content.text =
-//                            selectedPlaneModel?.latitude.toString()
-//                        viewDetail.txv_longitude_detail.txv_content.text =
-//                            selectedPlaneModel?.longitude.toString()
-//                        viewDetail.txv_scheduled_out_detail.txv_content.text =
-//                            selectedPlaneModelDetail?.scheduled_out
-//                        viewDetail.txv_scheduled_in_detail.txv_content.text =
-//                            selectedPlaneModelDetail?.scheduled_in
-//                        viewDetail.txv_actual_out_detail.txv_content.text =
-//                            selectedPlaneModelDetail?.actual_on
-//                        viewDetail.txv_actual_in_detail.txv_content.text =
-//                            selectedPlaneModelDetail?.estimated_on
-//                        viewDetail.route.txv_content.text =
-//                            (selectedPlaneModelDetail?.route_distance ?: "").toString()
-//                        Log.i(
-//                            TAG,
-//                            "moreInfo = ${selectedPlaneModelDetail?.aircraft_type ?: ""}, " +
-//                                viewDetail.txv_aircraft_type_detail.txtContent
-//                        )
+                        detaileBinding.txvAircraftTypeDetail.txtContent =
+                            selectedPlaneModelDetail?.aircraft_type ?: "None"
+                        detaileBinding.txvAircraftRegistrationDetail.txtContent =
+                            selectedPlaneModelDetail?.registration ?: "None"
+                        detaileBinding.txvAltitudeDetail.txtContent =
+                            selectedPlaneModel?.baro_altitude.toString()
+                        detaileBinding.txvTrackDetail.txtContent =
+                            selectedPlaneModel?.true_track.toString()
+                        detaileBinding.txvVelocityDetail.txtContent =
+                            selectedPlaneModel?.velocity.toString()
+                        detaileBinding.txvLatitudeDetail.txtContent =
+                            selectedPlaneModel?.latitude.toString()
+                        detaileBinding.txvLongitudeDetail.txtContent =
+                            selectedPlaneModel?.longitude.toString()
+                        detaileBinding.txvScheduledOutDetail.txtContent =
+                            selectedPlaneModelDetail?.scheduled_out ?: ""
+                        detaileBinding.txvScheduledInDetail.txtContent =
+                            selectedPlaneModelDetail?.scheduled_in ?: ""
+                        detaileBinding.txvActualOutDetail.txtContent =
+                            selectedPlaneModelDetail?.actual_on ?: ""
+                        detaileBinding.txvActualInDetail.txtContent =
+                            selectedPlaneModelDetail?.estimated_on ?: ""
+                        detaileBinding.route.txtContent =
+                            (selectedPlaneModelDetail?.route_distance ?: "").toString()
+                        Log.i(
+                            TAG,
+                            "moreInfo = ${selectedPlaneModelDetail?.aircraft_type ?: ""}, " +
+                                    detaileBinding.txvAircraftTypeDetail.txtContent
+                        )
                     } else {
                         binding.layoutBottomViewContainer.removeAllViews()
                         binding.layoutBottomViewContainer.addView(viewIntro)

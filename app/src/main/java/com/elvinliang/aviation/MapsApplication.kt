@@ -1,4 +1,4 @@
-package com.elvinliang
+package com.elvinliang.aviation
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

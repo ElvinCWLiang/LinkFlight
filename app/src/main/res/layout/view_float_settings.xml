@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.elvinliang.ui.ImgTextView
+    <com.elvinliang.aviation.ui.ImgTextView
         android:id="@+id/txv_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@id/txv_filters"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></com.elvinliang.ui.ImgTextView>
+        app:layout_constraintTop_toTopOf="parent"></com.elvinliang.aviation.ui.ImgTextView>
 
-    <com.elvinliang.ui.ImgTextView
+    <com.elvinliang.aviation.ui.ImgTextView
         android:id="@+id/txv_filters"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,15 +23,15 @@
         app:layout_constraintStart_toEndOf="@+id/txv_settings"
         app:layout_constraintTop_toTopOf="parent">
 
-    </com.elvinliang.ui.ImgTextView>
+    </com.elvinliang.aviation.ui.ImgTextView>
 
-    <com.elvinliang.ui.ImgTextView
+    <com.elvinliang.aviation.ui.ImgTextView
         android:id="@+id/txv_weather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/txv_filters"
-        app:layout_constraintTop_toTopOf="parent"></com.elvinliang.ui.ImgTextView>
+        app:layout_constraintTop_toTopOf="parent"></com.elvinliang.aviation.ui.ImgTextView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

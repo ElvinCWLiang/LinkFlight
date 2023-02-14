@@ -1,4 +1,4 @@
-package com.elvinliang.common
+package com.elvinliang.aviation.common
 
 object Constants {
     const val URL_OpenSkyNetwork = "https://opensky-network.org/"

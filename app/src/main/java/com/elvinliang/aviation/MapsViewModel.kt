@@ -6,8 +6,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.elvinliang.remote.FlightAwareService
-import com.elvinliang.remote.OpenSkyNetworkService
+import com.elvinliang.aviation.remote.FlightAwareService
+import com.elvinliang.aviation.remote.OpenSkyNetworkService
 import com.elvinliang.remote.PlaneModel
 import com.elvinliang.remote.PlaneModelDetail
 import com.elvinliang.remote.Posts

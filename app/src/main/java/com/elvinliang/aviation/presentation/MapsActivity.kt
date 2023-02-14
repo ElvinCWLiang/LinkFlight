@@ -1,4 +1,4 @@
-package com.elvinliang.presentation
+package com.elvinliang.aviation.presentation
 
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +14,7 @@ import com.elvinliang.aviation.databinding.ViewFlightDetailBinding
 import com.elvinliang.remote.AirportModel
 import com.elvinliang.remote.PlaneModel
 import com.elvinliang.remote.PlaneModelDetail
-import com.elvinliang.utils.getJsonDataFromAsset
+import com.elvinliang.aviation.utils.getJsonDataFromAsset
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -23,9 +23,6 @@ import com.google.android.gms.maps.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.component_detailtextview.view.*
-import kotlinx.android.synthetic.main.view_flight_detail.view.*
-import kotlinx.android.synthetic.main.view_flight_introduction.view.*
 
 @AndroidEntryPoint
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -33,7 +30,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapsBinding
 
-    private lateinit var detailBinding: ViewFlightDetailBinding
+    private lateinit var detaileBinding: ViewFlightDetailBinding
 
     private lateinit var mapsActivityViewModel: MapsViewModel
     private val locationTaiwan = LatLng(20.0, 121.0)
@@ -60,6 +57,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             ViewModelProvider(this).get(MapsViewModel::class.java)
         binding.mapsactivityViewModel = mapsActivityViewModel
 
+        detaileBinding = ViewFlightDetailBinding.inflate(layoutInflater)
         viewDetail = LayoutInflater.from(this).inflate(R.layout.view_flight_detail, null)
         viewIntro = LayoutInflater.from(this).inflate(R.layout.view_flight_introduction, null)
 
@@ -91,34 +89,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                         isShowDetail = true
 
-                        viewDetail.txv_aircraft_type_detail.txv_content.text =
+                        detaileBinding.txvAircraftTypeDetail.txtContent =
                             selectedPlaneModelDetail?.aircraft_type ?: "None"
-                        viewDetail.txv_aircraft_registration_detail.txv_content.text =
+                        detaileBinding.txvAircraftRegistrationDetail.txtContent =
                             selectedPlaneModelDetail?.registration ?: "None"
-                        viewDetail.txv_altitude_detail.txv_content.text =
+                        detaileBinding.txvAltitudeDetail.txtContent =
                             selectedPlaneModel?.baro_altitude.toString()
-                        viewDetail.txv_track_detail.txv_content.text =
+                        detaileBinding.txvTrackDetail.txtContent =
                             selectedPlaneModel?.true_track.toString()
-                        viewDetail.txv_velocity_detail.txv_content.text =
+                        detaileBinding.txvVelocityDetail.txtContent =
                             selectedPlaneModel?.velocity.toString()
-                        viewDetail.txv_latitude_detail.txv_content.text =
+                        detaileBinding.txvLatitudeDetail.txtContent =
                             selectedPlaneModel?.latitude.toString()
-                        viewDetail.txv_longitude_detail.txv_content.text =
+                        detaileBinding.txvLongitudeDetail.txtContent =
                             selectedPlaneModel?.longitude.toString()
-                        viewDetail.txv_scheduled_out_detail.txv_content.text =
-                            selectedPlaneModelDetail?.scheduled_out
-                        viewDetail.txv_scheduled_in_detail.txv_content.text =
-                            selectedPlaneModelDetail?.scheduled_in
-                        viewDetail.txv_actual_out_detail.txv_content.text =
-                            selectedPlaneModelDetail?.actual_on
-                        viewDetail.txv_actual_in_detail.txv_content.text =
-                            selectedPlaneModelDetail?.estimated_on
-                        viewDetail.route.txv_content.text =
+                        detaileBinding.txvScheduledOutDetail.txtContent =
+                            selectedPlaneModelDetail?.scheduled_out ?: ""
+                        detaileBinding.txvScheduledInDetail.txtContent =
+                            selectedPlaneModelDetail?.scheduled_in ?: ""
+                        detaileBinding.txvActualOutDetail.txtContent =
+                            selectedPlaneModelDetail?.actual_on ?: ""
+                        detaileBinding.txvActualInDetail.txtContent =
+                            selectedPlaneModelDetail?.estimated_on ?: ""
+                        detaileBinding.route.txtContent =
                             (selectedPlaneModelDetail?.route_distance ?: "").toString()
                         Log.i(
                             TAG,
                             "moreInfo = ${selectedPlaneModelDetail?.aircraft_type ?: ""}, " +
-                                viewDetail.txv_aircraft_type_detail.txtContent
+                                    detaileBinding.txvAircraftTypeDetail.txtContent
                         )
                     } else {
                         binding.layoutBottomViewContainer.removeAllViews()
@@ -137,12 +135,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             for (i in it.indices) {
                 if (it[i].status?.contains("途中") == true) {
                     selectedPlaneModelDetail = it[i]
-                    viewIntro.arrival.txv_content.text = selectedPlaneModelDetail?.destination?.code_iata ?: ""
-                    viewIntro.departed.txv_content.text = selectedPlaneModelDetail?.origin?.code_iata ?: ""
-                    viewIntro.flightmodel_intro.txv_content.text = selectedPlaneModelDetail?.aircraft_type ?: ""
-                    viewIntro.callsign.txv_content.text = selectedPlaneModelDetail?.ident ?: ""
-                    viewIntro.speed.txv_content.text = (selectedPlaneModel?.velocity ?: "").toString()
-                    viewIntro.altitude.txv_content.text = (selectedPlaneModel?.baro_altitude ?: "").toString()
+//                    viewIntro.arrival.txv_content.text = selectedPlaneModelDetail?.destination?.code_iata ?: ""
+//                    viewIntro.departed.txv_content.text = selectedPlaneModelDetail?.origin?.code_iata ?: ""
+//                    viewIntro.flightmodel_intro.txv_content.text = selectedPlaneModelDetail?.aircraft_type ?: ""
+//                    viewIntro.callsign.txv_content.text = selectedPlaneModelDetail?.ident ?: ""
+//                    viewIntro.speed.txv_content.text = (selectedPlaneModel?.velocity ?: "").toString()
+//                    viewIntro.altitude.txv_content.text = (selectedPlaneModel?.baro_altitude ?: "").toString()
                     Log.i(TAG, "size = ${it.size}, $selectedPlaneModelDetail")
                     break
                 }

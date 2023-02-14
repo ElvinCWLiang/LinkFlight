@@ -1,4 +1,4 @@
-package com.elvinliang.aviation.ui
+package com.elvinliang.aviation.presentation.ui
 
 import android.content.Context
 import android.content.res.TypedArray

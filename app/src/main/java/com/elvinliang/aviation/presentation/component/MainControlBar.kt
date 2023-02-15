@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -36,7 +35,7 @@ fun MainControlBar(modifier: Modifier = Modifier, images: IntArray, titles: Arra
 fun BarElement(modifier: Modifier = Modifier, title: String, imgResource: Int) {
     Column(modifier = modifier) {
         Image(modifier = Modifier.size(40.dp), painter = painterResource(imgResource), contentDescription = "")
-        Text(text = title, textAlign = TextAlign.Center)
+        Text(text = title, color = colorResource(id = R.color.white), textAlign = TextAlign.Center)
     }
 }
 

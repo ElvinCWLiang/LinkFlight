@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="itemsTitle">
+        <item>Group</item>
+        <item>Filter</item>
+        <item>Setting</item>
+    </string-array>
+
+    <integer-array name="itemsResource">
+        <item>@drawable/placeholder</item>
+        <item>@drawable/newplane</item>
+        <item>@drawable/airplane</item>
+    </integer-array>
+</resources>

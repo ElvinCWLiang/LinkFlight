@@ -127,6 +127,8 @@ data class PlaneModelDetail(
     var ident_icao: String? = "",
     @SerializedName("ident_iata")
     var ident_iata: String? = "",
+    @SerializedName("flight_number")
+    var flight_number: String? = "",
     @SerializedName("registration")
     var registration: String? = "",
     @SerializedName("origin")
@@ -157,6 +159,8 @@ data class PlaneModelDetail(
     var aircraft_type: String? = "",
     @SerializedName("route_distance")
     var route_distance: Int? = null,
+    @SerializedName("operator")
+    var operator: String? = "N/A"
 )
 
 data class AirportName(

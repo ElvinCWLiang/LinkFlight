@@ -17,4 +17,8 @@
     <string name="arriving">ARRIVING</string>
     <string name="callsign">CALLSIGN</string>
     <string name="route">ROUTE</string>
+    <string name="more_info">More Info</string>
+    <string name="route_s">Route</string>
+    <string name="follow">Follow</string>
+    <string name="share">Share</string>
 </resources>

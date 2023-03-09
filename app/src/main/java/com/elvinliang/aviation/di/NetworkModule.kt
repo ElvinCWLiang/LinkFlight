@@ -1,6 +1,5 @@
 package com.elvinliang.aviation.di
 
-import com.elvinliang.aviation.common.Constants
 import com.elvinliang.aviation.common.Constants.URL_FlightAware
 import com.elvinliang.aviation.common.Constants.URL_OpenSkyNetwork
 import com.elvinliang.aviation.remote.FlightAwareService
@@ -29,11 +28,12 @@ object NetworkModule {
     fun providesOpenSkyNetworkClient(): OkHttpClient {
         val okHttpClient = OkHttpClient.Builder()
         AndroidFlipperClient.getInstanceIfInitialized()?.let { flipperClient ->
-            okHttpClient.addNetworkInterceptor(
+            okHttpClient.addInterceptor(
                 FlipperOkhttpInterceptor(
                     flipperClient.getPlugin(
                         NetworkFlipperPlugin.ID
-                    )
+                    ),
+                    true
                 )
             )
         }
@@ -49,11 +49,12 @@ object NetworkModule {
     fun providesFlightAwareClient(): OkHttpClient {
         val okHttpClient = OkHttpClient.Builder()
         AndroidFlipperClient.getInstanceIfInitialized()?.let { flipperClient ->
-            okHttpClient.addNetworkInterceptor(
+            okHttpClient.addInterceptor(
                 FlipperOkhttpInterceptor(
                     flipperClient.getPlugin(
                         NetworkFlipperPlugin.ID
-                    )
+                    ),
+                    true
                 )
             )
         }
@@ -61,7 +62,8 @@ object NetworkModule {
             .addInterceptor { chain ->
                 val request: Request = chain.request()
                     .newBuilder()
-                    .addHeader("x-apiKey", Constants.API_KEY)
+//                    .addHeader("x-apiKey", Constants.API_KEY)
+                    .addHeader("x-apiKey", "")
                     .build()
                 chain.proceed(request)
             }

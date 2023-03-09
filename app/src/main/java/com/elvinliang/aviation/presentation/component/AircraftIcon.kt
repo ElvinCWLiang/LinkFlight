@@ -12,11 +12,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.elvinliang.aviation.R
 
 @Composable
 fun AircraftIcon(modifier: Modifier = Modifier, mode: Int, degree: Int) {
     // TODO: elvin rotate image by animation
+    val viewModel: MainViewModel = viewModel()
+
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "callsign", color = colorResource(id = R.color.white))
         Image(
@@ -25,7 +28,7 @@ fun AircraftIcon(modifier: Modifier = Modifier, mode: Int, degree: Int) {
             contentScale = ContentScale.Crop,
             painter = painterResource(id = R.drawable.airplane), contentDescription = "",
         )
-        Text(text = "type",  color = colorResource(id = R.color.white))
+        Text(text = "type", color = colorResource(id = R.color.white))
     }
 }
 

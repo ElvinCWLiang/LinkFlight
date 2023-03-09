@@ -2,27 +2,30 @@ package com.elvinliang.aviation.presentation
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.compose.ui.Modifier
 import com.elvinliang.aviation.MapsViewModel
 import com.elvinliang.aviation.R
 import com.elvinliang.aviation.databinding.ActivityMapsBinding
 import com.elvinliang.aviation.databinding.ViewFlightDetailBinding
-import com.elvinliang.remote.AirportModel
-import com.elvinliang.remote.PlaneModel
-import com.elvinliang.remote.PlaneModelDetail
+import com.elvinliang.aviation.presentation.component.MainScreen
+import com.elvinliang.aviation.presentation.component.MainViewModel
+import com.elvinliang.aviation.remote.dto.AirportModel
+import com.elvinliang.aviation.remote.dto.PlaneModel
+import com.elvinliang.aviation.remote.dto.PlaneModelDetail
 import com.elvinliang.aviation.utils.getJsonDataFromAsset
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -38,39 +41,45 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val hashMapPlaneMarker = HashMap<String, Marker>() // <icao24, marker>
     private var selectedPlaneModel: PlaneModel? = null
     private var selectedPlaneModelDetail: PlaneModelDetail? = null
-    private lateinit var airportList: List<AirportModel>
+//    private lateinit var airportList: List<AirportModel>
     private lateinit var viewDetail: View
     private lateinit var viewIntro: View
+
+    private val airportList: List<AirportModel> by lazy {
+        val jsonFileString: String? = getJsonDataFromAsset(applicationContext, "airportList.json")
+        Timber.tag(TAG).i(jsonFileString)
+        val gson = Gson()
+        val listPersonType = object : TypeToken<List<AirportModel>>() {}.type
+        gson.fromJson(jsonFileString, listPersonType)
+    }
+
+    private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMapsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContent {
+            MainScreen(modifier = Modifier, viewModel, airportList)
+        }
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        Log.i(TAG, "onCreate")
-        mapsActivityViewModel =
-            ViewModelProvider(this).get(MapsViewModel::class.java)
-        binding.mapsactivityViewModel = mapsActivityViewModel
+//        binding = ActivityMapsBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+//
+//        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+//        val mapFragment = supportFragmentManager
+//            .findFragmentById(R.id.map) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
+//        Log.i(TAG, "onCreate")
+//        mapsActivityViewModel =
+//            ViewModelProvider(this).get(MapsViewModel::class.java)
+//        binding.mapsactivityViewModel = mapsActivityViewModel
+//
+//        detaileBinding = ViewFlightDetailBinding.inflate(layoutInflater)
+//        viewDetail = LayoutInflater.from(this).inflate(R.layout.view_flight_detail, null)
+//        viewIntro = LayoutInflater.from(this).inflate(R.layout.view_flight_introduction, null)
+//
 
-        detaileBinding = ViewFlightDetailBinding.inflate(layoutInflater)
-        viewDetail = LayoutInflater.from(this).inflate(R.layout.view_flight_detail, null)
-        viewIntro = LayoutInflater.from(this).inflate(R.layout.view_flight_introduction, null)
-
-        initVariable()
-        initView()
-    }
-
-    private fun initVariable() {
-        val jsonFileString: String? = getJsonDataFromAsset(applicationContext, "airportList.json")
-        Log.i(TAG, "$jsonFileString")
-        val gson = Gson()
-        val listPersonType = object : TypeToken<List<AirportModel>>() {}.type
-        airportList = gson.fromJson(jsonFileString, listPersonType)
+//        initView()
     }
 
     private fun initView() {
@@ -116,7 +125,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         Log.i(
                             TAG,
                             "moreInfo = ${selectedPlaneModelDetail?.aircraft_type ?: ""}, " +
-                                    detaileBinding.txvAircraftTypeDetail.txtContent
+                                detaileBinding.txvAircraftTypeDetail.txtContent
                         )
                     } else {
                         binding.layoutBottomViewContainer.removeAllViews()
@@ -198,7 +207,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         /* load airport location from json file >> */
         for (i in airportList.indices) {
-            val mAirportLocation = LatLng(airportList[i].latitude, airportList[i].longitude!!)
+            val mAirportLocation = LatLng(airportList[i].latitude, airportList[i].longitude)
             map.addMarker(MarkerOptions().position(mAirportLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.airport)).title(airportList[i].name))
         }
         /* load airport location from json file << */

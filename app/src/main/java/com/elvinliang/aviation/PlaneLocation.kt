@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.elvinliang.remote.PlaneModel
+import com.elvinliang.aviation.remote.dto.PlaneModel
 import com.google.gson.Gson
 
 @Deprecated("for WorkManager")

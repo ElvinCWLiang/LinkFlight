@@ -1,7 +1,7 @@
-package com.plcoding.cryptocurrencyappyt.common
+package com.elvinliang.aviation.common
 
-sealed class Resource<T>(val data: T? = null, val message: String? = null) {
-    class Success<T>(data: T) : Resource<T>(data)
-    class Error<T>(message: String, data: T? = null) : Resource<T>(data, message)
-    class Loading<T>(data: T? = null) : Resource<T>(data)
+sealed class Response<T>(val data: T? = null, val message: String? = null) {
+    class Success<T>(data: T) : Response<T>(data)
+    class Error<T>(message: String, data: T? = null) : Response<T>(data, message)
+    class Loading<T>(data: T? = null) : Response<T>(data)
 }

@@ -2,9 +2,7 @@ package com.elvinliang.aviation.presentation.ui
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Typeface
 import android.util.AttributeSet
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.elvinliang.aviation.R
 class DetailTextView : ConstraintLayout {

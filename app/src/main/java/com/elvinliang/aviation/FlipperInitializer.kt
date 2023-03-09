@@ -1,7 +1,6 @@
 package com.elvinliang.aviation
 
 import android.content.Context
-import com.elvinliang.aviation.BuildConfig
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
@@ -14,7 +13,6 @@ object FlipperInitializer {
         SoLoader.init(context, false)
         if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(context)) {
             val client = AndroidFlipperClient.getInstance(context)
-
             client.addPlugin(NetworkFlipperPlugin())
             client.addPlugin(InspectorFlipperPlugin(context, DescriptorMapping.withDefaults()))
             client.start()

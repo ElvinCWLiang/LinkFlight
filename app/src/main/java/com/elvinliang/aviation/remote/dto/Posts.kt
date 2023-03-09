@@ -1,22 +1,22 @@
-package com.elvinliang.remote
+package com.elvinliang.aviation.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
 data class Posts(
     @SerializedName("time")
-    var time: Int = 0,
+    val time: Int = 0,
     @SerializedName("states")
-    var states: List<List<Any>>
+    val states: List<List<Any>>
 )
 
 data class PlaneModel(
-    @SerializedName("icao24")
+    @SerializedName("icao24") // icao24
     var icao24: String = "",
-    @SerializedName("callsign")
+    @SerializedName("callsign") // callsign
     var callsign: String? = "",
-    @SerializedName("origin_country")
+    @SerializedName("SerializedName") // origin_country
     var origin_country: String = "",
-    @SerializedName("time_position")
+    @SerializedName("time_position") // time_position
     var time_position: Int = 0,
     @SerializedName("last_contact")
     var last_contact: Int = 0,
@@ -46,12 +46,12 @@ data class PlaneModel(
     var position_source: Int = 0,
     @SerializedName("unknown")
     var unknown: Int = 0,
-    var time: Int? = 0
+    var time: Int? = 0,
 )
 
 data class PostsPlaneModelDetail(
     @SerializedName("flights")
-    var flights: List<PlaneModelDetail>
+    val flights: List<PlaneModelDetail>
 )
 
 /* FlightAware Api */
@@ -132,9 +132,9 @@ data class PlaneModelDetail(
     @SerializedName("registration")
     var registration: String? = "",
     @SerializedName("origin")
-    var origin: AirportName? = null,
+    var origin: Airport? = Airport(),
     @SerializedName("destination")
-    var destination: AirportName? = null,
+    var destination: Airport? = Airport(),
     @SerializedName("scheduled_on")
     var scheduled_on: String? = "",
     @SerializedName("scheduled_off")
@@ -152,24 +152,39 @@ data class PlaneModelDetail(
     @SerializedName("scheduled_in")
     var scheduled_in: String? = "",
     @SerializedName("progress_percent")
-    var progress_percent: Int? = null,
+    val progress_percent: Int? = null,
     @SerializedName("status")
     var status: String? = "",
     @SerializedName("aircraft_type")
     var aircraft_type: String? = "",
     @SerializedName("route_distance")
-    var route_distance: Int? = null,
+    val route_distance: Int? = null,
     @SerializedName("operator")
     var operator: String? = "N/A"
-)
+) {
+    val postKilometers = route_distance?.let { distance ->
+        progress_percent?.let { percent ->
+            distance * percent / 100
+        }
+    }
+    val etaKilometers = postKilometers?.let {
+        route_distance?.minus(it)
+    }
+}
 
-data class AirportName(
+data class Airport(
     @SerializedName("code_icao")
-    var code_icao: String? = "",
+    var code_icao: String? = "N/A",
     @SerializedName("code_iata")
-    var code_iata: String? = "",
+    var code_iata: String? = "N/A",
     @SerializedName("airport_info_url")
-    var airport_info_url: String? = ""
+    var airport_info_url: String? = "",
+    @SerializedName("timezone")
+    var timezone: String? = "",
+    @SerializedName("name")
+    var name: String? = "",
+    @SerializedName("city")
+    var city: String? = ""
 )
 
 data class AirportModel(
@@ -194,5 +209,5 @@ data class AirportModel(
     @SerializedName("lat")
     var latitude: Double = 0.0,
     @SerializedName("lng")
-    var longitude: Double? = 0.0
+    var longitude: Double = 0.0
 )

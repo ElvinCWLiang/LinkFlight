@@ -1,9 +1,9 @@
 package com.elvinliang.aviation.remote
 
-import com.elvinliang.remote.AirportModel
-import com.elvinliang.remote.PlaneModelDetail
-import com.elvinliang.remote.PostsPlaneModelDetail
-import retrofit2.Call
+import com.elvinliang.aviation.remote.dto.AirportModel
+import com.elvinliang.aviation.remote.dto.PlaneModelDetail
+import com.elvinliang.aviation.remote.dto.PostsPlaneModelDetail
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -11,14 +11,14 @@ import retrofit2.http.Query
 interface FlightAwareService {
     // https://aeroapi.flightaware.com/aeroapi/flights/JAL325?ident_type=designator
     @GET("/aeroapi/flights/{ident}") // Get information for a flight, $0.005 usd/set
-    fun getflights(
+    suspend fun getFlights(
         @Path("ident") callsign: String,
         @Query("ident_type") ident_type: String
-    ): Call<PostsPlaneModelDetail>
+    ): Response<PostsPlaneModelDetail>
 
     @GET("/airports/{flight_id}/flights") // Get all flights for a given airport, $0.02 usd/set
-    fun getAirportInformation(@Path("flight_id") flight_id: String): Call<List<PlaneModelDetail>>
+    suspend fun getAirportInformation(@Path("flight_id") flight_id: String): Response<List<PlaneModelDetail>>
 
     @GET("/airports") // Get all airports, $0.005 usd/set
-    fun getAllAirport(): Call<List<AirportModel>>
+    suspend fun getAllAirport(): Response<List<AirportModel>>
 }

@@ -65,7 +65,8 @@ fun SettingPage(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(colorResource(id = R.color.black_80))
-                .padding(vertical = 4.dp), horizontalArrangement = Arrangement.SpaceEvenly
+                .padding(vertical = 4.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             pageName.forEachIndexed { index, name ->
                 Text(
@@ -104,4 +105,3 @@ fun SettingPage(
         }
     }
 }
-

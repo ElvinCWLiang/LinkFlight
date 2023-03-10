@@ -33,9 +33,10 @@ fun FilterPage(
     var rangeSpeed by remember { mutableStateOf(speedScope.first..speedScope.second) }
 
     Column(modifier = modifier) {
-        SettingsPageTopBar(modifier = Modifier, "Setting")
+        SettingsPageTopBar(modifier = Modifier, "Filter")
 
         Column {
+            Text(text = "Altitude")
             RangeSlider(
                 value = rangeAltitude, onValueChange = {
                     rangeAltitude = it
@@ -45,7 +46,7 @@ fun FilterPage(
                     activeTrackColor = MaterialTheme.colorScheme.onSecondaryContainer
                 ),
                 valueRange = 0f..65000f,
-                steps = 100
+                steps = 1000
             )
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = rangeAltitude.start.toString(), color = colorResource(id = R.color.dark_gray))
@@ -54,6 +55,7 @@ fun FilterPage(
         }
 
         Column {
+            Text(text = "Speed")
             RangeSlider(
                 value = rangeSpeed, onValueChange = {
                     rangeSpeed = it
@@ -66,8 +68,8 @@ fun FilterPage(
                 steps = 10
             )
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = rangeSpeed.start.toString(), color = colorResource(id = R.color.dark_gray))
-                Text(text = rangeSpeed.endInclusive.toString(), color = colorResource(id = R.color.dark_gray))
+                Text(text = rangeSpeed.start.toInt().toString(), color = colorResource(id = R.color.dark_gray))
+                Text(text = rangeSpeed.endInclusive.toInt().toString(), color = colorResource(id = R.color.dark_gray))
             }
         }
 
@@ -78,11 +80,9 @@ fun FilterPage(
                     Pair(rangeAltitude.start, rangeAltitude.endInclusive),
                     Pair(rangeSpeed.start, rangeSpeed.endInclusive)
                 )
-            }) {
+            }
+        ) {
             Text(text = "Apply")
         }
-
     }
-
-
 }

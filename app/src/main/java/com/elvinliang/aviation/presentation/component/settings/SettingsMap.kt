@@ -45,13 +45,16 @@ fun SettingsMap(
 
     val iconAirportType = SettingsIcon("Terrain", R.drawable.map_sattelite)
 
+    val iconPhotographyType = SettingsIcon("sattelite", R.drawable.map_sattelite)
+
     LazyColumn(modifier = modifier, content = {
         item {
             Text(text = "MAP TYPE")
             SettingsIconRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp), settingsConfig.mapType, iconMapTypeList
+                    .height(180.dp),
+                settingsConfig.mapType, iconMapTypeList
             ) {
                 // TODO: save to config effecthandler
                 // TODO: viewmodel
@@ -99,14 +102,22 @@ fun SettingsMap(
             }
         }
 
+        item {
+            SettingsIconDot(
+                modifier = Modifier,
+                icon = iconPhotographyType,
+                isEnabled = settingsConfig.showPhotography,
+                description = "photographer"
+            ) {
+                iconClick.invoke(SettingsIconAction.IsShowPhotography(isShow = it))
+            }
+        }
     })
-
 
 //    ScrollableTabRow(selectedTabIndex = 1) {
 //
 //    }
 //
-
 
 //    Text(text = "AIRPORT PINS")
 //    SettingsIconRow(modifier = Modifier.fillMaxWidth(), settingsConfig, iconRowsList) {}
@@ -141,8 +152,6 @@ private fun SettingsIconDot(
 
         Text(text = description, modifier = Modifier.weight(1f))
     }
-
-
 }
 
 @Composable
@@ -164,7 +173,8 @@ private fun SettingsIconRow(
                             if (type == index)
                                 4.dp
                             else
-                                0.dp, color = colorResource(id = R.color.orange)
+                                0.dp,
+                            color = colorResource(id = R.color.orange)
                         ),
                         shape = RectangleShape
                     ),
@@ -190,7 +200,6 @@ data class SettingsIcon(
     val imageResource: Int
 )
 
-
 data class SettingsConfig(
     val mapType: Int = 0,
     val miscItem: MiscItem? = null,
@@ -198,6 +207,7 @@ data class SettingsConfig(
     val brightness: Float = 1F,
     val showAirport: Boolean = true,
     val showMyLocation: Boolean = true,
+    val showPhotography: Boolean = true,
     val temperatureIconType: Int = 0,
     val distanceIconType: Int = 0,
     val speedIconType: Int = 0,
@@ -210,6 +220,7 @@ sealed class SettingsIconAction {
     data class AircraftLabelIcon(val position: Int) : SettingsIconAction()
     data class IsShowMyLocation(val isShow: Boolean) : SettingsIconAction()
     data class IsShowAirport(val isShow: Boolean) : SettingsIconAction()
+    data class IsShowPhotography(val isShow: Boolean) : SettingsIconAction()
 }
 
 enum class MapShape {
@@ -233,7 +244,6 @@ fun PreviewSettingsMap() {
     SettingsIconRow(modifier = Modifier.fillMaxWidth(), type = 0, iconRowsList = iconRowsList) {}
 }
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
@@ -243,8 +253,9 @@ fun testButton() {
         // Our page content
         Text(
             text = "Page: $page",
-            modifier = Modifier.fillMaxWidth().background(colorResource(id = R.color.white))
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colorResource(id = R.color.white))
         )
     }
 }
-

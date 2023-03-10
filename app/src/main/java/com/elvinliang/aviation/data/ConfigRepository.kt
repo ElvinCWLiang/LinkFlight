@@ -6,7 +6,7 @@ import com.google.gson.Gson
 
 class ConfigRepositoryImpl(
     private val sharedPreference: SharedPreferences
-): ConfigRepository {
+) : ConfigRepository {
     override fun saveConfig(settingsConfig: SettingsConfig) {
         sharedPreference.edit().putString("user", Gson().toJson(settingsConfig)).apply()
     }

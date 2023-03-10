@@ -4,9 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Point
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,11 +21,10 @@ import com.elvinliang.aviation.R
 import com.elvinliang.aviation.presentation.component.settings.AircraftLabel
 import com.elvinliang.aviation.remote.dto.PlaneModel
 import com.elvinliang.aviation.remote.dto.Posts
+import java.io.IOException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
-import java.io.IOException
-
 
 /* for loading test data */
 fun getJsonDataFromAsset(context: Context, fileName: String): String? {
@@ -79,7 +76,9 @@ fun textccc() {
                 "a320a320a320",
                 context = LocalContext.current,
                 type = 1
-            ).asImageBitmap(), contentDescription = "", modifier = Modifier
+            ).asImageBitmap(),
+            contentDescription = "",
+            modifier = Modifier
                 .align(Alignment.Center)
                 .background(
                     colorResource(
@@ -88,7 +87,6 @@ fun textccc() {
                 )
         )
     }
-
 }
 
 object BitmapGenerater {
@@ -120,7 +118,8 @@ object BitmapGenerater {
                 city
             } else {
                 ""
-            }, xPos.toFloat(), size.toFloat(), textPaint
+            },
+            xPos.toFloat(), size.toFloat(), textPaint
         )
         canvas.drawText(
             if (type == AircraftLabel.ALL.ordinal
@@ -128,10 +127,11 @@ object BitmapGenerater {
                 name
             } else {
                 ""
-            }, xPos.toFloat(), size.toFloat() * 2 + src.height, textPaint
+            },
+            xPos.toFloat(), size.toFloat() * 2 + src.height, textPaint
         )
         canvas.save()
-        canvas.rotate(rotate, canvas.width.toFloat() / 2, canvas.height.toFloat() / 2);
+        canvas.rotate(rotate, canvas.width.toFloat() / 2, canvas.height.toFloat() / 2)
         canvas.drawBitmap(src, size.toFloat(), size.toFloat(), null)
         canvas.restore()
         return result

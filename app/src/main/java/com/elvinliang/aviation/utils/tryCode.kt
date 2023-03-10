@@ -17,9 +17,11 @@ import com.elvinliang.aviation.R
 @Preview
 @Composable
 fun TryCode() {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(color = colorResource(id = R.color.light_gray))) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = colorResource(id = R.color.light_gray))
+    ) {
 
         TopAppBar(
             modifier = Modifier.clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)),

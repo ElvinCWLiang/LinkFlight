@@ -4,7 +4,6 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elvinliang.aviation.data.ConfigRepository
-import com.elvinliang.aviation.presentation.component.settings.MapShape
 import com.elvinliang.aviation.presentation.component.settings.SettingsConfig
 import com.elvinliang.aviation.remote.FlightAwareService
 import com.elvinliang.aviation.remote.OpenSkyNetworkService
@@ -15,6 +14,7 @@ import com.elvinliang.aviation.utils.ResponseMapper
 import com.elvinliang.aviation.utils.Timer
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel@Inject constructor(
@@ -83,7 +82,8 @@ class MainViewModel@Inject constructor(
             isAircraftDetailVisible = false,
             isSettingPageVisible = false,
             isMainSearchBarVisible = true,
-            isFilterPageVisible = false
+            isFilterPageVisible = false,
+            isGroupPageVisible = false
         )
     }
 
@@ -293,6 +293,14 @@ class MainViewModel@Inject constructor(
         showMainControlPanel()
     }
 
+    fun updateShowPhotography(isShow: Boolean) {
+        _state.value = _state.value.copy(
+            SettingsConfig = _state.value.SettingsConfig.copy(
+                showPhotography = isShow
+            )
+        )
+        updateConfig(_state.value.SettingsConfig)
+    }
 
 //    override fun onStart(owner: LifecycleOwner) {
 //        super.onStart(owner)

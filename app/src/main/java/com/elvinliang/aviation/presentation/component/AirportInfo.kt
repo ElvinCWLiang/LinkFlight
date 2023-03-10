@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,10 +24,11 @@ fun AirportDetail(
     airportDetail: AirportModel,
     bottomNavigationClick: (NavigationBarIconType) -> Unit
 ) {
-    val bottomSheetItemList = listOf(BottomSheetItem("General",R.drawable.mainmoreicon, NavigationBarIconType.General),
-        BottomSheetItem("Arrivals",R.drawable.mainmoreicon, NavigationBarIconType.Arrivals),
-        BottomSheetItem("Departures",R.drawable.mainmoreicon, NavigationBarIconType.Departures),
-        BottomSheetItem("OnGround",R.drawable.mainmoreicon, NavigationBarIconType.OnGround)
+    val bottomSheetItemList = listOf(
+        BottomSheetItem("General", R.drawable.mainmoreicon, NavigationBarIconType.General),
+        BottomSheetItem("Arrivals", R.drawable.mainmoreicon, NavigationBarIconType.Arrivals),
+        BottomSheetItem("Departures", R.drawable.mainmoreicon, NavigationBarIconType.Departures),
+        BottomSheetItem("OnGround", R.drawable.mainmoreicon, NavigationBarIconType.OnGround)
     )
 
 //    Icon(Icons.Default.DepartureBoard, contentDescription = null)
@@ -58,7 +58,8 @@ fun AirportDetail(
                 Modifier
                     .fillMaxWidth()
                     .background(colorResource(id = R.color.black)),
-                bottomSheetItemList) {
+                bottomSheetItemList
+            ) {
                 bottomNavigationClick.invoke(it)
             }
         }
@@ -77,7 +78,6 @@ fun DetailInfoNavigationBar(
                 onClick.invoke(item.iconType)
             }
         }
-
     }
 }
 

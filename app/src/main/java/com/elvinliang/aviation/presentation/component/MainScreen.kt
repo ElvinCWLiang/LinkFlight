@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elvinliang.aviation.R
 import com.elvinliang.aviation.presentation.component.filter.FilterPage
+import com.elvinliang.aviation.presentation.component.group.GroupScreen
 import com.elvinliang.aviation.presentation.component.settings.MapShape
 import com.elvinliang.aviation.presentation.component.settings.SettingPage
 import com.elvinliang.aviation.presentation.component.settings.SettingsIconAction
@@ -100,18 +101,6 @@ fun MainScreen(
         bottomSheetState = sheetState
     )
 
-//    var mapType by remember {
-//        mutableStateOf(uiState.SettingsConfig.mapType)
-//    }
-//
-//    var aircraftLabelType by remember {
-//        mutableStateOf(uiState.SettingsConfig.aircraftLabelType)
-//    }
-//
-//    var brightness by remember {
-//        mutableStateOf(uiState.SettingsConfig.brightness)
-//    }
-
     BottomSheetScaffold(
         scaffoldState = bottomSheetScaffoldState,
         sheetPeekHeight = 1.dp,
@@ -131,16 +120,12 @@ fun MainScreen(
                     ) {
                         when (it) {
                             is NavigationBarIconType.OnGround -> {
-
                             }
                             is NavigationBarIconType.Departures -> {
-
                             }
                             is NavigationBarIconType.Arrivals -> {
-
                             }
                             is NavigationBarIconType.Share -> {
-
                             }
                             else -> {}
                         }
@@ -163,16 +148,13 @@ fun MainScreen(
                     ) {
                         when (it) {
                             is NavigationBarIconType.Route -> {
-
                             }
                             is NavigationBarIconType.MoreInfo -> {
                                 viewModel.showMoreInfo()
                             }
                             is NavigationBarIconType.Follow -> {
-
                             }
                             is NavigationBarIconType.Share -> {
-
                             }
                             else -> {}
                         }
@@ -192,9 +174,10 @@ fun MainScreen(
                 }
 
                 if (uiState.isSettingPageVisible) {
-                    SettingPage(modifier = Modifier
-                        .fillMaxHeight(0.5f)
-                        .fillMaxWidth(),
+                    SettingPage(
+                        modifier = Modifier
+                            .fillMaxHeight(0.5f)
+                            .fillMaxWidth(),
                         uiState.SettingsConfig,
                         mapPageAction = {
                             when (it) {
@@ -209,6 +192,9 @@ fun MainScreen(
                                 }
                                 is SettingsIconAction.IsShowAirport -> {
                                     viewModel.updateShowAirport(isShow = it.isShow)
+                                }
+                                is SettingsIconAction.IsShowPhotography -> {
+                                    viewModel.updateShowPhotography(isShow = it.isShow)
                                 }
                             }
                         },
@@ -229,7 +215,8 @@ fun MainScreen(
                                     viewModel.updateSpeedIcon(it.position)
                                 }
                             }
-                        })
+                        }
+                    )
                 }
 
                 if (uiState.isFilterPageVisible) {
@@ -242,6 +229,10 @@ fun MainScreen(
                     ) { altitudeScope, speedScope ->
                         viewModel.updateFilter(altitudeScope, speedScope)
                     }
+                }
+
+                if (uiState.isGroupPageVisible) {
+                    GroupScreen(modifier = Modifier.fillMaxHeight(0.8f).fillMaxWidth()) {}
                 }
             }
         }
@@ -305,7 +296,6 @@ fun MainScreen(
                                 viewModel.updateCurrentPosition(LatLng(20.0, 105.0))
                             }
                             is MainControlPanelIconType.MoreIcon -> {
-
                             }
                             is MainControlPanelIconType.SettingIcon -> {
                                 expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
@@ -316,7 +306,6 @@ fun MainScreen(
                                 viewModel.showFilterPage()
                             }
                             is MainControlPanelIconType.PlaneIcon -> {
-
                             }
                             is MainControlPanelIconType.GroupIcon -> {
                                 expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
@@ -329,7 +318,6 @@ fun MainScreen(
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterialApi::class)
 private fun expandBottomSheet(
@@ -444,7 +432,6 @@ fun Map(
     }
 }
 
-
 sealed class DetailViewType {
     data class AircraftInfo(val planeModel: PlaneModel) : DetailViewType()
     data class AirportInfo(val airportModel: AirportModel) : DetailViewType()
@@ -495,10 +482,10 @@ fun PreviewCustomMap() {
     }
 }
 //
-//Text(
-//"Hello Compose!",
-//modifier = Modifier
-//.drawWithCache {
+// Text(
+// "Hello Compose!",
+// modifier = Modifier
+// .drawWithCache {
 //    val brush = Brush.linearGradient(
 //        listOf(
 //            Color(0xFF9E82F0),
@@ -511,16 +498,16 @@ fun PreviewCustomMap() {
 //            cornerRadius = CornerRadius(10.dp.toPx())
 //        )
 //    }
-//}
-//)
-//Text(
-//"Hello Compose!",
-//modifier = Modifier
-//.drawBehind {
+// }
+// )
+// Text(
+// "Hello Compose!",
+// modifier = Modifier
+// .drawBehind {
 //    drawRoundRect(
 //        Color(0xFFBBAAEE),
 //        cornerRadius = CornerRadius(10.dp.toPx())
 //    )
-//}
-//.padding(4.dp)
-//)
+// }
+// .padding(4.dp)
+// )

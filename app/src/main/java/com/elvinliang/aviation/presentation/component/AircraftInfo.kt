@@ -48,10 +48,11 @@ fun AircraftInfo(
     currentPlaneDetailRecord: PlaneModelDetail,
     bottomNavigationClick: (NavigationBarIconType) -> Unit
 ) {
-    val bottomSheetItemList = listOf(BottomSheetItem("more",R.drawable.newplane, NavigationBarIconType.Route),
-        BottomSheetItem("more",R.drawable.mainmoreicon, NavigationBarIconType.MoreInfo),
-        BottomSheetItem("more",R.drawable.bottompanelfollowicon, NavigationBarIconType.Follow),
-        BottomSheetItem("more",R.drawable.controlbarshareicon, NavigationBarIconType.Share)
+    val bottomSheetItemList = listOf(
+        BottomSheetItem("more", R.drawable.newplane, NavigationBarIconType.Route),
+        BottomSheetItem("more", R.drawable.mainmoreicon, NavigationBarIconType.MoreInfo),
+        BottomSheetItem("more", R.drawable.bottompanelfollowicon, NavigationBarIconType.Follow),
+        BottomSheetItem("more", R.drawable.controlbarshareicon, NavigationBarIconType.Share)
     )
 
     Column(modifier = modifier) {

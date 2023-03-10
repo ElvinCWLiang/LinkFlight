@@ -41,7 +41,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val hashMapPlaneMarker = HashMap<String, Marker>() // <icao24, marker>
     private var selectedPlaneModel: PlaneModel? = null
     private var selectedPlaneModelDetail: PlaneModelDetail? = null
-//    private lateinit var airportList: List<AirportModel>
+
+    //    private lateinit var airportList: List<AirportModel>
     private lateinit var viewDetail: View
     private lateinit var viewIntro: View
 
@@ -174,7 +175,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     } else {
                         // Unseen icao24 number and add marker into View
                         val mPlaneMarker = map.addMarker(
-                            MarkerOptions().position(mPlaneLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.airplane)).anchor(0.5f, 0.5f)
+                            MarkerOptions().position(mPlaneLocation)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.airplane)).anchor(0.5f, 0.5f)
                                 .rotation(mPlaneModel.true_track ?: 90F).title(mPlaneModel.icao24)
                         )
                         mPlaneMarker?.apply {
@@ -208,7 +210,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         /* load airport location from json file >> */
         for (i in airportList.indices) {
             val mAirportLocation = LatLng(airportList[i].latitude, airportList[i].longitude)
-            map.addMarker(MarkerOptions().position(mAirportLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.airport)).title(airportList[i].name))
+            map.addMarker(
+                MarkerOptions().position(mAirportLocation)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.airport)).title(airportList[i].name)
+            )
         }
         /* load airport location from json file << */
 
@@ -228,7 +233,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             selectedPlaneModel?.callsign?.let { callSign ->
                 mapsActivityViewModel.fetchPlaneDetail(callSign)
             }
-            Toast.makeText(this, "icao24 = ${hashMapMarkerPlane[it]?.icao24}\n sign = ${hashMapMarkerPlane[it]?.callsign} ", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "icao24 = ${hashMapMarkerPlane[it]?.icao24}\n sign = ${hashMapMarkerPlane[it]?.callsign} ",
+                Toast.LENGTH_SHORT
+            ).show()
             true
         }
         /* when user click the plane object, set BottomView to Visible << */

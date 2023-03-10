@@ -30,11 +30,17 @@ enum class MiscItemType {
 }
 
 @Composable
-fun SettingsMisc(modifier: Modifier = Modifier, settingsConfig: SettingsConfig, iconClick: (SettingsMiscIcon) -> Unit) {
+fun SettingsMisc(
+    modifier: Modifier = Modifier,
+    settingsConfig: SettingsConfig,
+    iconClick: (SettingsMiscIcon) -> Unit
+) {
 
-    val temperatureList = listOf(MiscItem(title = "Temperature", type = MiscItemType.TEMPERATURE, option = settingsConfig.temperatureIconType, options = listOf("*F", "*C")),
-        MiscItem(title = "Distance", type = MiscItemType.DISTANCE,  option = settingsConfig.distanceIconType, options = listOf("mile", "km")),
-        MiscItem(title = "Speed", type = MiscItemType.SPEED,  option = settingsConfig.speedIconType, options = listOf("knots", "km", "mph")))
+    val temperatureList = listOf(
+        MiscItem(title = "Temperature", type = MiscItemType.TEMPERATURE, option = settingsConfig.temperatureIconType, options = listOf("*F", "*C")),
+        MiscItem(title = "Distance", type = MiscItemType.DISTANCE, option = settingsConfig.distanceIconType, options = listOf("mile", "km")),
+        MiscItem(title = "Speed", type = MiscItemType.SPEED, option = settingsConfig.speedIconType, options = listOf("knots", "km", "mph"))
+    )
 
     LazyColumn(modifier = modifier, content = {
         itemsIndexed(temperatureList) { index, item ->
@@ -57,13 +63,13 @@ fun SettingsMisc(modifier: Modifier = Modifier, settingsConfig: SettingsConfig, 
         }
     })
 }
-//TabRow(
-//selectedTabIndex = tabPage.ordinal,
-//backgroundColor = backgroundColor,
-//indicator = { tabPositions ->
+// TabRow(
+// selectedTabIndex = tabPage.ordinal,
+// backgroundColor = backgroundColor,
+// indicator = { tabPositions ->
 //    HomeTabIndicator(tabPositions, tabPage)
-//}
-//) {
+// }
+// ) {
 //    HomeTab(
 //        icon = Icons.Default.Home,
 //        title = stringResource(R.string.home),
@@ -74,14 +80,14 @@ fun SettingsMisc(modifier: Modifier = Modifier, settingsConfig: SettingsConfig, 
 //        title = stringResource(R.string.work),
 //        onClick = { onTabSelected(TabPage.Work) }
 //    )
-//}
-
+// }
 
 @Composable
 fun SettingsMiscItem(modifier: Modifier = Modifier, miscItem: MiscItem, iconClick: (Int) -> Unit) {
     Column(modifier = modifier) {
         Text(text = miscItem.title)
-        TabRow(modifier = Modifier.background(color = colorResource(id = R.color.light_gray)),
+        TabRow(
+            modifier = Modifier.background(color = colorResource(id = R.color.light_gray)),
             selectedTabIndex = miscItem.option,
             divider = {
                 Divider()

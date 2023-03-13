@@ -1,6 +1,6 @@
 package com.elvinliang.aviation.presentation.component
 
-import androidx.compose.foundation.Image
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.elvinliang.aviation.R
 
 @Composable
@@ -59,7 +61,8 @@ fun MainControlPanel(modifier: Modifier = Modifier, iconClick: (MainControlPanel
                 BarElementIcon("Settings", R.drawable.controlbarsettingsicon, MainControlPanelIconType.SettingIcon),
                 BarElementIcon("Filter", R.drawable.controlbarfiltericon, MainControlPanelIconType.FilterIcon),
                 BarElementIcon("Plane", R.drawable.airplane, MainControlPanelIconType.PlaneIcon),
-                BarElementIcon("Group", R.drawable.speed, MainControlPanelIconType.GroupIcon)
+                BarElementIcon("Spot", R.drawable.controlbar_group_icon, MainControlPanelIconType.SpotIcon),
+                BarElementIcon("Friends", R.drawable.controlbar_friend_icon, MainControlPanelIconType.FriendIcon)
             )
             barElementList.forEach {
                 BarElement(
@@ -86,23 +89,33 @@ sealed class MainControlPanelIconType {
     object SettingIcon : MainControlPanelIconType()
     object FilterIcon : MainControlPanelIconType()
     object PlaneIcon : MainControlPanelIconType()
-    object GroupIcon : MainControlPanelIconType()
+    object SpotIcon : MainControlPanelIconType()
+    object FriendIcon : MainControlPanelIconType()
 }
 
 @Composable
 fun BarElement(
     modifier: Modifier = Modifier,
     title: String,
+    @DrawableRes
     imgResource: Int,
     onClickAction: (() -> Unit)? = null
 ) {
-    Column(
-        modifier = modifier.clickable { onClickAction?.invoke() },
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(modifier = Modifier.size(40.dp), painter = painterResource(imgResource), contentDescription = "")
-        Text(text = title, color = colorResource(id = R.color.white), textAlign = TextAlign.Center)
+    IconButton(
+        modifier = modifier,
+        onClick = { onClickAction?.invoke() }) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(painter = painterResource(imgResource), contentDescription = "", modifier = Modifier.size(30.dp))
+            Text(text = title, color = colorResource(id = R.color.white), textAlign = TextAlign.Center, fontSize = 12.sp)
+        }
     }
+//    Column(
+//        modifier = modifier.clickable { onClickAction?.invoke() },
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        Image(modifier = Modifier.size(40.dp), painter = painterResource(imgResource), contentDescription = "")
+//        Text(text = title, color = colorResource(id = R.color.white), textAlign = TextAlign.Center)
+//    }
 }
 
 @Composable

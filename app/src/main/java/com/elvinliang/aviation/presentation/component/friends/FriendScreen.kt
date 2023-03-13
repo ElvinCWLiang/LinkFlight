@@ -1,4 +1,4 @@
-package com.elvinliang.aviation.presentation.component.group
+package com.elvinliang.aviation.presentation.component.friends
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Icon
@@ -9,9 +9,9 @@ import com.elvinliang.aviation.R
 import com.elvinliang.aviation.presentation.component.settings.SettingsPageTopBar
 
 @Composable
-fun GroupScreen(modifier: Modifier = Modifier, iconClick: () -> Unit) {
+fun FriendScreen(modifier: Modifier = Modifier, iconClick: () -> Unit) {
     Column(modifier = modifier) {
-        SettingsPageTopBar(modifier = Modifier, "Group")
+        SettingsPageTopBar(modifier = Modifier, "Friend")
 
         Icon(painter = painterResource(id = R.drawable.speed), contentDescription = "")
     }

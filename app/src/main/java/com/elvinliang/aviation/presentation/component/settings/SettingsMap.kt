@@ -89,6 +89,7 @@ fun SettingsMap(
                 iconClick.invoke(SettingsIconAction.IsShowAirport(isShow = it))
             }
             Divider()
+
         }
 
         item {

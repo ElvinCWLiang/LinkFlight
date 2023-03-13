@@ -33,15 +33,19 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.elvinliang.aviation.R
 import com.elvinliang.aviation.presentation.component.filter.FilterPage
-import com.elvinliang.aviation.presentation.component.group.GroupScreen
+import com.elvinliang.aviation.presentation.component.friends.FriendScreen
+import com.elvinliang.aviation.presentation.component.spot.SpotScreen
 import com.elvinliang.aviation.presentation.component.settings.MapShape
 import com.elvinliang.aviation.presentation.component.settings.SettingPage
 import com.elvinliang.aviation.presentation.component.settings.SettingsIconAction
 import com.elvinliang.aviation.presentation.component.settings.SettingsMiscIcon
+import com.elvinliang.aviation.presentation.component.spot.User
 import com.elvinliang.aviation.remote.dto.AirportModel
 import com.elvinliang.aviation.remote.dto.PlaneModel
+import com.elvinliang.aviation.remote.dto.SpotModel
 import com.elvinliang.aviation.utils.BitmapGenerater
 import com.elvinliang.aviation.utils.orZero
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -67,7 +71,8 @@ import timber.log.Timber
 fun MainScreen(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
-    airportList: List<AirportModel>
+    airportList: List<AirportModel>,
+    navController: NavHostController
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -116,7 +121,7 @@ fun MainScreen(
                             .fillMaxWidth()
                             .align(Alignment.BottomCenter)
                             .background(colorResource(id = R.color.white)),
-                        uiState.airportDetail
+                        uiState.airportModel
                     ) {
                         when (it) {
                             is NavigationBarIconType.OnGround -> {
@@ -231,9 +236,66 @@ fun MainScreen(
                     }
                 }
 
-                if (uiState.isGroupPageVisible) {
-                    GroupScreen(modifier = Modifier.fillMaxHeight(0.8f).fillMaxWidth()) {}
+                if (uiState.isSpotSheetVisible) {
+                    val userList = listOf(
+                        User(
+                            "https://picsum.photos/200/300",
+                            email = "elvinliang2006@gmail.com",
+                            nickName = "elvin",
+                            description = "my name is elvin"
+                        ),
+                        User(
+                            "https://picsum.photos/id/237/200/300",
+                            email = "elvinliang2006@gmail.com",
+                            nickName = "elvin",
+                            description = "my name is elvin"
+                        ),
+                        User(
+                            "https://picsum.photos/id/237/200/300",
+                            email = "elvinliang2006@gmail.com",
+                            nickName = "elvin",
+                            description = "my name is elvin"
+                        ),
+                        User(
+                            "https://picsum.photos/id/237/200/300",
+                            email = "elvinliang2006@gmail.com",
+                            nickName = "elvin",
+                            description = "my name is elvin"
+                        ),
+                        User(
+                            "https://picsum.photos/200/300/?blur",
+                            email = "elvinliang2006@gmail.com",
+                            nickName = "andy",
+                            description = "my name is elvin"
+                        ),
+                        User(
+                            "https://picsum.photos/200/300/?blur",
+                            email = "elvinliang2006@gmail.com",
+                            nickName = "andy",
+                            description = "my name is elvin"
+                        ),
+                        User(
+                            "https://picsum.photos/200/300/?blur",
+                            email = "elvinliang2006@gmail.com",
+                            nickName = "andy",
+                            description = "my name is elvin"
+                        ),
+                    )
+                    SpotScreen(modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(), userList, {
+
+                    }, {
+                        viewModel.sendMessage(it)
+                    })
                 }
+
+                if (uiState.isFriendSheetVisible) {
+                    FriendScreen(modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth()) {}
+                }
+
             }
         }
 //        topBar = {
@@ -257,6 +319,7 @@ fun MainScreen(
                     aircraftLabelType = uiState.SettingsConfig.aircraftLabelType,
                     airportList = airports,
                     aircraftList = uiState.aircraftList,
+                    spotList = uiState.spotList
                 ) {
                     when (it) {
                         is DetailViewType.AircraftInfo -> {
@@ -273,6 +336,12 @@ fun MainScreen(
                         }
                         is DetailViewType.NoneOfNode -> {
                             viewModel.showMainControlPanel()
+                        }
+                        is DetailViewType.SpotsInfo -> {
+                            coroutineScope.launch {
+                                sheetState.expand()
+                            }
+                            viewModel.showSpotInfo(it.spotsModel)
                         }
                     }
                 }
@@ -307,9 +376,13 @@ fun MainScreen(
                             }
                             is MainControlPanelIconType.PlaneIcon -> {
                             }
-                            is MainControlPanelIconType.GroupIcon -> {
+                            is MainControlPanelIconType.SpotIcon -> {
                                 expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
-                                viewModel.showGroupPage()
+                                viewModel.showSpotPage()
+                            }
+                            is MainControlPanelIconType.FriendIcon -> {
+                                expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
+                                viewModel.showFriendPage()
                             }
                         }
                     }
@@ -339,6 +412,7 @@ fun Map(
     aircraftLabelType: Int,
     airportList: List<AirportModel>,
     aircraftList: List<PlaneModel>,
+    spotList: List<SpotModel>,
     showDetail: (DetailViewType) -> Unit
 ) {
 
@@ -391,7 +465,7 @@ fun Map(
 //        }
         if (showAirport) {
             airportList.forEach { airportModel ->
-                MarkerInfoWindow(
+                Marker(
                     state = MarkerState(LatLng(airportModel.latitude, airportModel.longitude)).apply {
                         showInfoWindow()
                     },
@@ -429,12 +503,28 @@ fun Map(
                 )
             )
         }
+
+        spotList.forEach { spotModel ->
+            Marker(
+                state = MarkerState(LatLng(21.0, 121.0)),
+                onClick = {
+                    showDetail.invoke(DetailViewType.SpotsInfo(spotsModel = spotModel))
+                    false
+                },
+                title = "photography",
+                snippet = "from photography",
+                icon = BitmapDescriptorFactory.fromResource(
+                    R.drawable.newplane
+                )
+            )
+        }
     }
 }
 
 sealed class DetailViewType {
     data class AircraftInfo(val planeModel: PlaneModel) : DetailViewType()
     data class AirportInfo(val airportModel: AirportModel) : DetailViewType()
+    data class SpotsInfo(val spotsModel: SpotModel) : DetailViewType()
     object NoneOfNode : DetailViewType()
 }
 
@@ -452,7 +542,8 @@ fun PreviewMap() {
             PlaneModel(icao24 = "eva air", origin_country = "tpe"),
             PlaneModel(icao24 = "jin air", origin_country = "tpe")
         ),
-        aircraftLabelType = 0
+        aircraftLabelType = 0,
+        spotList = emptyList()
     ) {}
 }
 

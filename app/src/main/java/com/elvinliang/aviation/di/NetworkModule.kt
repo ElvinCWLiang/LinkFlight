@@ -63,7 +63,7 @@ object NetworkModule {
                 val request: Request = chain.request()
                     .newBuilder()
 //                    .addHeader("x-apiKey", Constants.API_KEY)
-                    .addHeader("x-apiKey", "")
+                    .addHeader("x-apiKey", "ut10BMbmXyBmwob6Iq73fvNjSkyAC3Lz")
                     .build()
                 chain.proceed(request)
             }

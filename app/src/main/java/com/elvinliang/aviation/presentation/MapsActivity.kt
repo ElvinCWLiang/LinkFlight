@@ -1,9 +1,6 @@
 package com.elvinliang.aviation.presentation
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,21 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.elvinliang.aviation.MapsViewModel
-import com.elvinliang.aviation.R
-import com.elvinliang.aviation.databinding.ActivityMapsBinding
-import com.elvinliang.aviation.databinding.ViewFlightDetailBinding
 import com.elvinliang.aviation.presentation.component.MainScreen
 import com.elvinliang.aviation.presentation.component.MainViewModel
+import com.elvinliang.aviation.presentation.component.login.LoginScreen
+import com.elvinliang.aviation.presentation.component.login.RegisterScreen
 import com.elvinliang.aviation.remote.dto.AirportModel
-import com.elvinliang.aviation.remote.dto.PlaneModel
-import com.elvinliang.aviation.remote.dto.PlaneModelDetail
 import com.elvinliang.aviation.theme.LoginPageTheme
 import com.elvinliang.aviation.utils.getJsonDataFromAsset
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,8 +47,9 @@ class MapsActivity : AppCompatActivity() {
         val navController = rememberNavController()
 
         NavHost(navController = navController, startDestination = "login_page", builder = {
-            composable("login_page", content = { LoginPage(navController = navController) })
-            composable("register_page", content = { MainScreen(modifier = Modifier, viewModel, airportList) })
+            composable("login_page", content = { LoginScreen(modifier = Modifier, viewModel, navController = navController) })
+            composable("register_page", content = { RegisterScreen(modifier = Modifier, viewModel, navController = navController) })
+            composable("main_page", content = { MainScreen(modifier = Modifier, viewModel, airportList, navController = navController) })
         })
     }
 

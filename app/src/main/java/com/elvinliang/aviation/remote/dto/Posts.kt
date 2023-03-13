@@ -187,6 +187,12 @@ data class Airport(
     var city: String? = ""
 )
 
+data class SpotModel(
+    val name: String = "",
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0
+)
+
 data class AirportModel(
 /*
 *   {

@@ -137,4 +137,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
 
     implementation "com.google.accompanist:accompanist-navigation-material:0.29.0-alpha"
+
+    // Glide
+    implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"
 }

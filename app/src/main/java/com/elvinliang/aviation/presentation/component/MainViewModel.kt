@@ -10,6 +10,7 @@ import com.elvinliang.aviation.remote.OpenSkyNetworkService
 import com.elvinliang.aviation.remote.dto.AirportModel
 import com.elvinliang.aviation.remote.dto.PlaneModel
 import com.elvinliang.aviation.remote.dto.PlaneModelDetail
+import com.elvinliang.aviation.remote.dto.SpotModel
 import com.elvinliang.aviation.utils.ResponseMapper
 import com.elvinliang.aviation.utils.Timer
 import com.google.android.gms.maps.model.LatLng
@@ -70,7 +71,9 @@ class MainViewModel@Inject constructor(
             isMainControlPanelVisible = false,
             isSettingPageVisible = false,
             isMainSearchBarVisible = false,
-            isFilterPageVisible = false
+            isFilterPageVisible = false,
+            isSpotSheetVisible = false,
+            isFriendSheetVisible = false
         )
     }
 
@@ -83,20 +86,23 @@ class MainViewModel@Inject constructor(
             isSettingPageVisible = false,
             isMainSearchBarVisible = true,
             isFilterPageVisible = false,
-            isGroupPageVisible = false
+            isFriendSheetVisible = false,
+            isSpotSheetVisible = false
         )
     }
 
     fun showAirportInfo(airportModel: AirportModel) {
         _state.value = _state.value.copy(
-            airportDetail = airportModel,
+            airportModel = airportModel,
             isAirportInfoVisible = true,
             isAircraftInfoVisible = false,
             isMainControlPanelVisible = false,
             isAircraftDetailVisible = false,
             isSettingPageVisible = false,
             isMainSearchBarVisible = false,
-            isFilterPageVisible = false
+            isFilterPageVisible = false,
+            isSpotSheetVisible = false,
+            isFriendSheetVisible = false
         )
     }
 
@@ -160,7 +166,9 @@ class MainViewModel@Inject constructor(
             isAircraftDetailVisible = false,
             isSettingPageVisible = false,
             isMainSearchBarVisible = true,
-            isFilterPageVisible = false
+            isFilterPageVisible = false,
+            isSpotSheetVisible = false,
+            isFriendSheetVisible = false
         )
     }
 
@@ -172,7 +180,9 @@ class MainViewModel@Inject constructor(
             isMainControlPanelVisible = false,
             isAircraftDetailVisible = false,
             isMainSearchBarVisible = false,
-            isFilterPageVisible = false
+            isFilterPageVisible = false,
+            isSpotSheetVisible = false,
+            isFriendSheetVisible = false
         )
     }
 
@@ -185,11 +195,12 @@ class MainViewModel@Inject constructor(
             isAircraftDetailVisible = false,
             isMainSearchBarVisible = false,
             isFilterPageVisible = true,
-            isGroupPageVisible = false
+            isFriendSheetVisible = false,
+            isSpotSheetVisible = false
         )
     }
 
-    fun showGroupPage() {
+    fun showSpotPage() {
         _state.value = _state.value.copy(
             isSettingPageVisible = false,
             isAirportInfoVisible = false,
@@ -198,7 +209,22 @@ class MainViewModel@Inject constructor(
             isAircraftDetailVisible = false,
             isMainSearchBarVisible = false,
             isFilterPageVisible = false,
-            isGroupPageVisible = true
+            isFriendSheetVisible = false,
+            isSpotSheetVisible = true
+        )
+    }
+
+    fun showFriendPage() {
+        _state.value = _state.value.copy(
+            isSettingPageVisible = false,
+            isAirportInfoVisible = false,
+            isAircraftInfoVisible = false,
+            isMainControlPanelVisible = false,
+            isAircraftDetailVisible = false,
+            isMainSearchBarVisible = false,
+            isFilterPageVisible = false,
+            isFriendSheetVisible = true,
+            isSpotSheetVisible = false
         )
     }
 
@@ -302,6 +328,37 @@ class MainViewModel@Inject constructor(
         updateConfig(_state.value.SettingsConfig)
     }
 
+    fun login(email: String, password: String) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+
+            }.onSuccess {
+
+            }.onFailure {
+
+            }
+        }
+    }
+
+    fun showSpotInfo(spotsModel: SpotModel) {
+        _state.value = _state.value.copy(
+            spotModel = spotsModel,
+            isSettingPageVisible = false,
+            isAirportInfoVisible = false,
+            isAircraftInfoVisible = false,
+            isMainControlPanelVisible = false,
+            isAircraftDetailVisible = false,
+            isMainSearchBarVisible = false,
+            isFilterPageVisible = false,
+            isFriendSheetVisible = false,
+            isSpotSheetVisible = true
+        )
+    }
+
+    fun sendMessage(message: String) {
+
+    }
+
 //    override fun onStart(owner: LifecycleOwner) {
 //        super.onStart(owner)
 //        Timber.tag(TAG).i("onStart")
@@ -330,12 +387,18 @@ data class MainViewState(
     val isAircraftDetailVisible: Boolean = false,
     val isSettingPageVisible: Boolean = false,
     val isFilterPageVisible: Boolean = false,
-    val isGroupPageVisible: Boolean = false,
-    val airportDetail: AirportModel = AirportModel(),
+    val isFriendSheetVisible: Boolean = false,
+    val isSpotSheetVisible: Boolean = false,
+    val airportModel: AirportModel = AirportModel(),
     val planeModel: PlaneModel = PlaneModel(),
+    val spotModel: SpotModel = SpotModel(),
     val planeDetailRecords: List<PlaneModelDetail> = emptyList(),
     val currentPlaneModelDetail: PlaneModelDetail = PlaneModelDetail(),
     val aircraftList: List<PlaneModel> = emptyList(),
+    val spotList: List<SpotModel> = listOf(
+        SpotModel(name = "attraction", latitude = 22.0, longitude = 121.0),
+        SpotModel(name = "attraction", latitude = 23.0, longitude = 121.0)
+    ),
     val currentPosition: LatLng = LatLng(22.0, 121.0),
     val SettingsConfig: SettingsConfig = SettingsConfig()
 )

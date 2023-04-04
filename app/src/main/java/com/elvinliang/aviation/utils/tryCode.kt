@@ -38,22 +38,26 @@ fun TryCode() {
     }
 }
 
-
 @Preview
 @Composable
 fun TryCode1() {
     Column {
-        IconButton(modifier = Modifier
-            .fillMaxWidth()
-            .background(color = colorResource(id = R.color.orange)), onClick = {  }) {
+        IconButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = colorResource(id = R.color.orange)),
+            onClick = { }
+        ) {
         }
 
         Icon(painter = painterResource(id = R.drawable.speed), contentDescription = "")
 
-        IconToggleButton(modifier = Modifier
-            .fillMaxWidth()
-            .background(color = colorResource(id = R.color.light_gray)), checked = true, onCheckedChange = {}) {
-
+        IconToggleButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = colorResource(id = R.color.light_gray)),
+            checked = true, onCheckedChange = {}
+        ) {
         }
     }
 }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -90,7 +91,12 @@ fun AircraftDetail(
                             airport = planeModelDetail.destination
                         )
                     }
-                    SimpleImage(modifier = Modifier.align(Alignment.Center), imageResource = R.drawable.newplane)
+                    SimpleImage(
+                        modifier = Modifier
+                            .size(60.dp)
+                            .align(Alignment.Center),
+                        imageResource = R.drawable.newplane
+                    )
                 }
             }
 
@@ -99,8 +105,9 @@ fun AircraftDetail(
                     val modifierDetailTime = Modifier
                         .background(color = colorResource(id = R.color.black_80))
                         .weight(1f)
-                        .padding(horizontal = 4.dp)
-                    Row(modifier = Modifier.fillMaxWidth()) {
+                        .fillMaxHeight()
+
+                    Row(modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min)) {
                         AircraftDetailTime(
                             modifier = modifierDetailTime,
                             title = stringResource(id = R.string.scheduled),
@@ -112,7 +119,7 @@ fun AircraftDetail(
                             time = planeModelDetail.scheduled_out.orUnknown()
                         )
                     }
-                    Row(modifier = Modifier.fillMaxWidth()) {
+                    Row(modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min)) {
                         AircraftDetailTime(
                             modifier = modifierDetailTime,
                             title = stringResource(id = R.string.actual),
@@ -129,7 +136,7 @@ fun AircraftDetail(
 
             item {
                 MoreInfoProgress(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
                     progressPercentage = planeModelDetail.progress_percent,
                     depart = planeModelDetail.postKilometers.toString(),
                     arrived = planeModelDetail.etaKilometers.toString()
@@ -142,27 +149,26 @@ fun AircraftDetail(
                     "More CS543",
                     R.drawable.newplane,
                     R.drawable.airplane,
-                    planeModelDetail = planeModelDetail
                 ) {
                     AircraftInfoBlock(modifier = Modifier.weight(0.9f), planeModelDetail = planeModelDetail)
                 }
-
+            }
+            item {
                 AircraftDetailBlock(
                     modifier = Modifier,
                     "Speed & Altitude",
                     R.drawable.speed,
                     R.drawable.speed,
-                    planeModelDetail = planeModelDetail
                 ) {
                     AircraftADSBBlock(modifier = Modifier.weight(0.9f), planeModelDetail = planeModelDetail)
                 }
-
+            }
+            item {
                 AircraftDetailBlock(
                     modifier = Modifier,
                     "ADS-B",
                     R.drawable.appradaricon,
                     R.drawable.appradaricon_black,
-                    planeModelDetail = planeModelDetail
                 ) {
                     AircraftSpeedBlock(modifier = Modifier.weight(0.9f), planeModelDetail = planeModelDetail)
                 }
@@ -177,8 +183,7 @@ fun AircraftDetailBlock(
     title: String,
     titleImage: Int,
     leftImage: Int,
-    planeModelDetail: PlaneModelDetail,
-    content: (@Composable () -> Unit)? = null,
+    content: (@Composable () -> Unit)? = null
 ) {
     Column(modifier = modifier) {
         AircraftDetailBlockTitle(
@@ -189,15 +194,22 @@ fun AircraftDetailBlock(
             imageResource = titleImage
         )
 
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             SimpleImage(
                 imageResource = leftImage,
                 modifier = Modifier
-                    // TODO: Elvin height error
-                    .height(IntrinsicSize.Max)
+                    .fillMaxHeight()
                     .weight(0.1f)
                     .background(color = colorResource(id = R.color.black_80))
             )
+
+            Divider(Modifier.size(2.dp))
+
             content?.invoke()
         }
     }
@@ -215,7 +227,13 @@ fun AircraftInfoBlock(
             content = planeModelDetail.aircraft_type.orUnknown()
         )
 
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Divider(Modifier.size(2.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+        ) {
             AircraftDetailSubBlock(
                 modifier = Modifier.weight(1f),
                 title = stringResource(id = R.string.registration),
@@ -233,7 +251,11 @@ fun AircraftInfoBlock(
 @Composable
 fun AircraftSpeedBlock(modifier: Modifier = Modifier, planeModelDetail: PlaneModelDetail) {
     Column(modifier = modifier) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+        ) {
             AircraftDetailSubBlock(
                 modifier = Modifier.weight(1f),
                 title = stringResource(id = R.string.altitude),
@@ -245,8 +267,12 @@ fun AircraftSpeedBlock(modifier: Modifier = Modifier, planeModelDetail: PlaneMod
                 imageResource = R.drawable.newplane
             )
         }
-
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Divider(Modifier.size(2.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+        ) {
             AircraftDetailSubBlock(
                 modifier = Modifier.weight(1f),
                 title = stringResource(id = R.string.registration),
@@ -264,7 +290,11 @@ fun AircraftSpeedBlock(modifier: Modifier = Modifier, planeModelDetail: PlaneMod
 @Composable
 fun AircraftADSBBlock(modifier: Modifier = Modifier, planeModelDetail: PlaneModelDetail) {
     Column(modifier = modifier) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+        ) {
             AircraftDetailSubBlock(
                 modifier = Modifier.weight(1f),
                 title = stringResource(id = R.string.altitude),
@@ -276,8 +306,12 @@ fun AircraftADSBBlock(modifier: Modifier = Modifier, planeModelDetail: PlaneMode
                 imageResource = R.drawable.newplane
             )
         }
-
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Divider(Modifier.size(2.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+        ) {
             AircraftDetailSubBlock(
                 modifier = Modifier.weight(1f),
                 title = stringResource(id = R.string.registration),
@@ -303,7 +337,12 @@ fun AircraftDetailName(modifier: Modifier = Modifier, airport: Airport?) {
 
 @Composable
 fun AircraftDetailTime(modifier: Modifier = Modifier, title: String, time: String) {
-    Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceBetween) {
+    Row(
+        modifier = modifier
+            .background(color = colorResource(id = R.color.light_gray))
+            .padding(horizontal = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
         Text(text = title)
         Text(text = time)
     }
@@ -318,7 +357,6 @@ fun AircraftDetailSubBlock(
 ) {
     Column(
         modifier = modifier
-            .fillMaxHeight()
             .background(color = colorResource(id = R.color.light_gray))
     ) {
         Text(text = title, color = colorResource(id = R.color.black_80))
@@ -326,7 +364,7 @@ fun AircraftDetailSubBlock(
             Text(text = it)
         }
         imageResource?.let {
-            SimpleImage(imageResource = imageResource)
+            SimpleImage(imageResource = imageResource, modifier = Modifier.fillMaxHeight())
         }
     }
 }
@@ -378,4 +416,70 @@ fun PreviewAircraftDetail() {
             route_distance = 210
         )
     ) {}
+}
+
+@Preview
+@Composable
+fun PreviewDetail() {
+    Column {
+        LazyColumn(modifier = Modifier, content = {
+            item {
+                AircraftDetailBlock(
+                    modifier = Modifier,
+                    "ADS-B",
+                    R.drawable.appradaricon,
+                    R.drawable.appradaricon_black
+                ) {
+                    AircraftSpeedBlock(
+                        modifier = Modifier.weight(0.9f),
+                        planeModelDetail = PlaneModelDetail(
+                            origin = Airport(
+                                code_iata = "TSA",
+                                name = "TAIPEI SONG SHAN", city = "TAIPEI"
+                            ),
+                            destination = Airport(
+                                code_iata = "PUS",
+                                name = "BUSAN INTL", city = "BUSAN"
+                            ),
+                            operator = "EVA AIR",
+                            flight_number = "EVA 777",
+                            progress_percent = 40,
+                            scheduled_out = "23:00",
+                            scheduled_in = "23:44:",
+                            actual_on = "22:00",
+                            estimated_on = "11:00",
+                            route_distance = 210
+                        )
+                    )
+                }
+            }
+        })
+    }
+}
+
+@Composable
+fun Tt(
+    content: (@Composable () -> Unit)? = null
+) {
+    Row(Modifier.height(IntrinsicSize.Min)) {
+        SimpleImage(imageResource = R.drawable.newplane, modifier = Modifier.fillMaxHeight())
+        content?.invoke()
+    }
+}
+
+@Composable
+@Preview
+fun ttttt() {
+    Tt {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .background(colorResource(id = R.color.purple_200))
+        ) {
+            Column {
+                Text(text = "bbbbbbb")
+                Text(text = "bbbbbbb")
+            }
+        }
+    }
 }

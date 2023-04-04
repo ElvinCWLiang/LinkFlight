@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.elvinliang.aviation.R
+import com.elvinliang.aviation.presentation.viewmodel.MainViewModel
 
 @Composable
 fun AircraftIcon(modifier: Modifier = Modifier, mode: Int, degree: Int) {

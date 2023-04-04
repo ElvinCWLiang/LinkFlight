@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.elvinliang.aviation.R
+import com.elvinliang.aviation.presentation.component.main.BarElement
+import com.elvinliang.aviation.presentation.component.main.BottomSheetItem
 import com.elvinliang.aviation.remote.dto.AirportModel
 
 @Composable
@@ -54,14 +56,14 @@ fun AirportDetail(
                 )
             }
 
-            DetailInfoNavigationBar(
-                Modifier
-                    .fillMaxWidth()
-                    .background(colorResource(id = R.color.black)),
-                bottomSheetItemList
-            ) {
-                bottomNavigationClick.invoke(it)
-            }
+//            DetailInfoNavigationBar(
+//                Modifier
+//                    .fillMaxWidth()
+//                    .background(colorResource(id = R.color.black)),
+//                bottomSheetItemList
+//            ) {
+//                bottomNavigationClick.invoke(it)
+//            }
         }
     }
 }

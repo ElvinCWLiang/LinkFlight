@@ -1,5 +1,6 @@
-package com.elvinliang.aviation.presentation.component
+package com.elvinliang.aviation.presentation.component.main
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,21 +33,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.elvinliang.aviation.R
-import com.elvinliang.aviation.presentation.component.filter.FilterPage
+import com.elvinliang.aviation.presentation.component.AircraftDetail
+import com.elvinliang.aviation.presentation.component.AircraftInfo
+import com.elvinliang.aviation.presentation.component.AirportDetail
+import com.elvinliang.aviation.presentation.component.NavigationBarIconType
 import com.elvinliang.aviation.presentation.component.friends.FriendScreen
-import com.elvinliang.aviation.presentation.component.spot.SpotScreen
 import com.elvinliang.aviation.presentation.component.settings.MapShape
 import com.elvinliang.aviation.presentation.component.settings.SettingPage
 import com.elvinliang.aviation.presentation.component.settings.SettingsIconAction
 import com.elvinliang.aviation.presentation.component.settings.SettingsMiscIcon
+import com.elvinliang.aviation.presentation.component.settings.filter.FilterPage
+import com.elvinliang.aviation.presentation.component.spot.Message
+import com.elvinliang.aviation.presentation.component.spot.SpotScreen
 import com.elvinliang.aviation.presentation.component.spot.User
+import com.elvinliang.aviation.presentation.viewmodel.MainViewModel
 import com.elvinliang.aviation.remote.dto.AirportModel
 import com.elvinliang.aviation.remote.dto.PlaneModel
 import com.elvinliang.aviation.remote.dto.SpotModel
-import com.elvinliang.aviation.utils.BitmapGenerater
+import com.elvinliang.aviation.utils.BitmapGenerator
 import com.elvinliang.aviation.utils.orZero
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -70,24 +77,13 @@ import timber.log.Timber
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel,
+    viewModel: MainViewModel = hiltViewModel(),
     airportList: List<AirportModel>,
-    navController: NavHostController
+    openAndPopUp: (String, String) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
 
     val uiState by viewModel.state.collectAsStateWithLifecycle()
-
-//    LaunchedEffect(key1 = "", block = {
-//        coroutineScope.launch {
-//            delay(5000L)
-//            currentPosition = LatLng(80.0, 100.0)
-//        }
-//    })
-
-//    val currentPosition = remember(initPosition) {
-//        mutableStateOf(initPosition)
-//    }
 
     val airports by remember(airportList) {
         mutableStateOf(airportList)
@@ -137,7 +133,7 @@ fun MainScreen(
                     }
                 }
 
-                if (uiState.isAircraftInfoVisible) {
+                if (uiState.isAircraftInfoVisible && uiState.currentPlaneModelDetail != null) {
                     Timber.d("ev_showAircraftDetail")
 
                     AircraftInfo(
@@ -149,12 +145,13 @@ fun MainScreen(
                             .padding(vertical = 10.dp),
                         planeModel = uiState.planeModel,
                         planeDetailRecords = uiState.planeDetailRecords,
-                        currentPlaneDetailRecord = uiState.currentPlaneModelDetail
+                        currentPlaneDetailRecord = uiState.currentPlaneModelDetail!!
                     ) {
                         when (it) {
                             is NavigationBarIconType.Route -> {
                             }
                             is NavigationBarIconType.MoreInfo -> {
+                                expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
                                 viewModel.showMoreInfo()
                             }
                             is NavigationBarIconType.Follow -> {
@@ -168,13 +165,17 @@ fun MainScreen(
 
                 if (uiState.isAircraftDetailVisible) {
                     Timber.d("ev_showAircraftDetail")
-                    AircraftDetail(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(color = colorResource(id = R.color.white)),
-                        planeModelDetail = uiState.currentPlaneModelDetail
-                    ) {
-                        viewModel.showMainControlPanel()
+                    if (uiState.currentPlaneModelDetail != null) {
+                        AircraftDetail(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color = colorResource(id = R.color.white)),
+                            planeModelDetail = uiState.currentPlaneModelDetail!!
+                        ) {
+                            viewModel.showMainControlPanel()
+                        }
+                    } else {
+                        Toast.makeText(LocalContext.current, "You haven't selected plane yet", Toast.LENGTH_LONG).show()
                     }
                 }
 
@@ -228,74 +229,43 @@ fun MainScreen(
                     FilterPage(
                         modifier = Modifier
                             .fillMaxHeight(0.5f)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .background(color = colorResource(id = R.color.light_gray)),
                         uiState.SettingsConfig.altitudeScope,
                         uiState.SettingsConfig.speedScope
                     ) { altitudeScope, speedScope ->
                         viewModel.updateFilter(altitudeScope, speedScope)
                     }
                 }
+                val messageList = listOf(
+                    Message(User(email = "andyl@gmail.com"), content = "abc", time = 100),
+                    Message(User(email = "anl@gmail.com"), content = "abcdd", time = 1098),
+                    Message(User(email = "anl@gmail.com"), content = "abcdd", time = 1098),
+                    Message(User(email = "anl@gmail.com"), content = "abcdd", time = 1098),
+                    Message(User(email = "andy@gmail.com"), content = "abcdd", time = 1099),
+                    Message(User(email = "andl@gmail.com"), content = "abcaaaab", time = 200)
+                )
 
                 if (uiState.isSpotSheetVisible) {
-                    val userList = listOf(
-                        User(
-                            "https://picsum.photos/200/300",
-                            email = "elvinliang2006@gmail.com",
-                            nickName = "elvin",
-                            description = "my name is elvin"
-                        ),
-                        User(
-                            "https://picsum.photos/id/237/200/300",
-                            email = "elvinliang2006@gmail.com",
-                            nickName = "elvin",
-                            description = "my name is elvin"
-                        ),
-                        User(
-                            "https://picsum.photos/id/237/200/300",
-                            email = "elvinliang2006@gmail.com",
-                            nickName = "elvin",
-                            description = "my name is elvin"
-                        ),
-                        User(
-                            "https://picsum.photos/id/237/200/300",
-                            email = "elvinliang2006@gmail.com",
-                            nickName = "elvin",
-                            description = "my name is elvin"
-                        ),
-                        User(
-                            "https://picsum.photos/200/300/?blur",
-                            email = "elvinliang2006@gmail.com",
-                            nickName = "andy",
-                            description = "my name is elvin"
-                        ),
-                        User(
-                            "https://picsum.photos/200/300/?blur",
-                            email = "elvinliang2006@gmail.com",
-                            nickName = "andy",
-                            description = "my name is elvin"
-                        ),
-                        User(
-                            "https://picsum.photos/200/300/?blur",
-                            email = "elvinliang2006@gmail.com",
-                            nickName = "andy",
-                            description = "my name is elvin"
-                        ),
-                    )
-                    SpotScreen(modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(), userList, {
 
-                    }, {
+                    SpotScreen(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth(),
+                        messageList, User(email = "andl@gmail.com"), {
+                        }, {
                         viewModel.sendMessage(it)
-                    })
+                    }
+                    )
                 }
 
                 if (uiState.isFriendSheetVisible) {
-                    FriendScreen(modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth()) {}
+                    FriendScreen(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth()
+                    ) {}
                 }
-
             }
         }
 //        topBar = {
@@ -318,7 +288,7 @@ fun MainScreen(
                     showAirport = uiState.SettingsConfig.showAirport,
                     aircraftLabelType = uiState.SettingsConfig.aircraftLabelType,
                     airportList = airports,
-                    aircraftList = uiState.aircraftList,
+                    aircraftList = uiState.aircraftMapperList,
                     spotList = uiState.spotList
                 ) {
                     when (it) {
@@ -346,47 +316,67 @@ fun MainScreen(
                     }
                 }
 
-                if (uiState.isMainSearchBarVisible) {
-                    Timber.d("ev_showMainSearchBar")
-                    MainSearchBar(modifier = Modifier.align(Alignment.TopCenter))
+                if (uiState.isPersonalDrawer) {
+                    PersonalDrawer(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth(0.3f)
+                            .padding(horizontal = 4.dp)
+                            .align(Alignment.TopEnd)
+                            .background(color = colorResource(id = R.color.light_gray)),
+                        isAnonymous = uiState.isAnonymous
+                    ) { route, popUp ->
+                        openAndPopUp(route, popUp)
+                    }
                 }
 
-                if (uiState.isMainControlPanelVisible) {
-                    Timber.d("ev_showMainControlPanel")
-                    MainControlPanel(
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-//                        .padding(horizontal = 10.dp)
-                            .height(100.dp)
-                            .width(IntrinsicSize.Max),
-                    ) {
-                        when (it) {
-                            is MainControlPanelIconType.NavigateIcon -> {
-                                viewModel.updateCurrentPosition(LatLng(20.0, 105.0))
-                            }
-                            is MainControlPanelIconType.MoreIcon -> {
-                            }
-                            is MainControlPanelIconType.SettingIcon -> {
-                                expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
-                                viewModel.showSettingsPage()
-                            }
-                            is MainControlPanelIconType.FilterIcon -> {
-                                expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
-                                viewModel.showFilterPage()
-                            }
-                            is MainControlPanelIconType.PlaneIcon -> {
-                            }
-                            is MainControlPanelIconType.SpotIcon -> {
-                                expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
-                                viewModel.showSpotPage()
-                            }
-                            is MainControlPanelIconType.FriendIcon -> {
-                                expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
-                                viewModel.showFriendPage()
+                if (uiState.isMainSearchBarVisible) {
+                    Timber.d("ev_showMainSearchBar")
+                    MainSearchBar(modifier = Modifier.align(Alignment.TopCenter), viewModel::showPersonalDrawer)
+                }
+
+                if (uiState.isMainControlPanelVisible)
+
+                    if (uiState.isMainControlPanelVisible) {
+                        Timber.d("ev_showMainControlPanel")
+                        MainControlPanel(
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .height(100.dp)
+                                .width(IntrinsicSize.Max),
+                        ) {
+                            when (it) {
+                                is MainControlPanelIconType.NavigateIcon -> {
+                                    viewModel.updateCurrentPosition()
+                                }
+                                is MainControlPanelIconType.SettingIcon -> {
+                                    expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
+                                    viewModel.showSettingsPage()
+                                }
+                                is MainControlPanelIconType.FilterIcon -> {
+                                    expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
+                                    viewModel.showFilterPage()
+                                }
+                                is MainControlPanelIconType.PlaneIcon -> {
+                                    expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
+                                    viewModel.showMoreInfo()
+                                }
+                                is MainControlPanelIconType.SpotIcon -> {
+                                    if (uiState.isAnonymous) {
+//                                    Toast.makeText(LocalContext.current, "You haven't selected plane yet", Toast.LENGTH_LONG).show()
+                                    } else {
+                                        expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
+                                        viewModel.showSpotPage()
+                                    }
+                                }
+                                is MainControlPanelIconType.FriendIcon -> {
+                                    expandBottomSheet(coroutineScope, bottomSheetScaffoldState)
+                                    viewModel.showFriendPage()
+                                }
+                                else -> {}
                             }
                         }
                     }
-                }
             }
         }
     }
@@ -492,7 +482,7 @@ fun Map(
                 title = planeModel.callsign,
                 snippet = "from ${planeModel.origin_country}",
                 icon = BitmapDescriptorFactory.fromBitmap(
-                    BitmapGenerater.createBitMap(
+                    BitmapGenerator.createBitMap(
                         R.drawable.airplane,
                         planeModel.callsign.toString(),
                         planeModel.icao24,
@@ -572,33 +562,3 @@ fun PreviewCustomMap() {
         }
     }
 }
-//
-// Text(
-// "Hello Compose!",
-// modifier = Modifier
-// .drawWithCache {
-//    val brush = Brush.linearGradient(
-//        listOf(
-//            Color(0xFF9E82F0),
-//            Color(0xFF42A5F5)
-//        )
-//    )
-//    onDrawBehind {
-//        drawRoundRect(
-//            brush,
-//            cornerRadius = CornerRadius(10.dp.toPx())
-//        )
-//    }
-// }
-// )
-// Text(
-// "Hello Compose!",
-// modifier = Modifier
-// .drawBehind {
-//    drawRoundRect(
-//        Color(0xFFBBAAEE),
-//        cornerRadius = CornerRadius(10.dp.toPx())
-//    )
-// }
-// .padding(4.dp)
-// )

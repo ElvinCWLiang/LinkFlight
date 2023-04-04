@@ -1,9 +1,21 @@
-package com.elvinliang.aviation.presentation.component
+package com.elvinliang.aviation.presentation.viewmodel
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.os.Build
+import android.os.Bundle
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elvinliang.aviation.data.ConfigRepository
+import com.elvinliang.aviation.model.service.AccountService
+import com.elvinliang.aviation.presentation.MapsActivity
 import com.elvinliang.aviation.presentation.component.settings.SettingsConfig
 import com.elvinliang.aviation.remote.FlightAwareService
 import com.elvinliang.aviation.remote.OpenSkyNetworkService
@@ -11,13 +23,14 @@ import com.elvinliang.aviation.remote.dto.AirportModel
 import com.elvinliang.aviation.remote.dto.PlaneModel
 import com.elvinliang.aviation.remote.dto.PlaneModelDetail
 import com.elvinliang.aviation.remote.dto.SpotModel
+import com.elvinliang.aviation.utils.AircraftListMapper
 import com.elvinliang.aviation.utils.ResponseMapper
 import com.elvinliang.aviation.utils.Timer
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,10 +39,12 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @HiltViewModel
-class MainViewModel@Inject constructor(
+class MainViewModel @Inject constructor(
     private val openSkyNetworkService: OpenSkyNetworkService,
     private val flightAwareService: FlightAwareService,
-    private val configRepository: ConfigRepository
+    private val configRepository: ConfigRepository,
+    private val accountService: AccountService,
+    @ApplicationContext private val context: Context
 ) : ViewModel(), DefaultLifecycleObserver {
     private val TAG = "ev_" + javaClass.simpleName
     private var lomax: Float = 122F
@@ -37,11 +52,13 @@ class MainViewModel@Inject constructor(
     private var lamax: Float = 25F
     private var lamin: Float = 21F
 
-    private val _state = MutableStateFlow(MainViewState())
+    private val _state = MutableStateFlow(
+        MainViewState().copy(
+            isAnonymous = accountService.isAnonymousUser
+        )
+    )
     val state: StateFlow<MainViewState>
         get() = _state.asStateFlow()
-
-    private var timerJob: Job? = null
 
     init {
         viewModelScope.launch {
@@ -54,13 +71,48 @@ class MainViewModel@Inject constructor(
             SettingsConfig = getConfig()
         )
 
+        startLocationUpdates()
         // TODO: update current location
     }
 
-    fun showMainSearchBar(isMainSearchBarVisible: Boolean) {
-        _state.value = _state.value.copy(
-            isMainSearchBarVisible = isMainSearchBarVisible
+    private var locationManager: LocationManager? = null
+
+    private fun startLocationUpdates() {
+        locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        locationManager?.requestLocationUpdates(
+            LocationManager.GPS_PROVIDER, 5000L, 0f,
+            object : LocationListener {
+                override fun onLocationChanged(location: Location) {
+                    _state.value = _state.value.copy(
+                        currentPosition = LatLng(location.latitude, location.longitude)
+                    )
+                }
+
+                override fun onProviderEnabled(provider: String) {}
+
+                override fun onProviderDisabled(provider: String) {}
+
+                override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+            }
         )
+    }
+
+//    fun stopLocationUpdates() {
+//        locationManager?.removeUpdates(locationListener)
+//    }
+
+    fun toLoginPage(openAndPopUp: (String, String) -> Unit) {
+        openAndPopUp(MapsActivity.LOGIN_SCREEN, MapsActivity.MAIN_SCREEN)
     }
 
     fun showMoreInfo() {
@@ -73,7 +125,25 @@ class MainViewModel@Inject constructor(
             isMainSearchBarVisible = false,
             isFilterPageVisible = false,
             isSpotSheetVisible = false,
-            isFriendSheetVisible = false
+            isSpotInfoVisible = false,
+            isFriendSheetVisible = false,
+            isPersonalDrawer = false
+        )
+    }
+
+    fun showPersonalDrawer() {
+        _state.value = _state.value.copy(
+            isAirportInfoVisible = false,
+            isAircraftInfoVisible = false,
+            isAircraftDetailVisible = false,
+            isMainControlPanelVisible = false,
+            isSettingPageVisible = false,
+            isMainSearchBarVisible = false,
+            isFilterPageVisible = false,
+            isSpotSheetVisible = false,
+            isSpotInfoVisible = false,
+            isFriendSheetVisible = false,
+            isPersonalDrawer = true
         )
     }
 
@@ -87,7 +157,9 @@ class MainViewModel@Inject constructor(
             isMainSearchBarVisible = true,
             isFilterPageVisible = false,
             isFriendSheetVisible = false,
-            isSpotSheetVisible = false
+            isSpotSheetVisible = false,
+            isSpotInfoVisible = false,
+            isPersonalDrawer = false
         )
     }
 
@@ -102,7 +174,9 @@ class MainViewModel@Inject constructor(
             isMainSearchBarVisible = false,
             isFilterPageVisible = false,
             isSpotSheetVisible = false,
-            isFriendSheetVisible = false
+            isSpotInfoVisible = false,
+            isFriendSheetVisible = false,
+            isPersonalDrawer = false
         )
     }
 
@@ -135,7 +209,8 @@ class MainViewModel@Inject constructor(
                 isMainControlPanelVisible = false,
                 isSettingPageVisible = false,
                 isMainSearchBarVisible = false,
-                isFilterPageVisible = false
+                isFilterPageVisible = false,
+                isPersonalDrawer = false
             )
         }
     }
@@ -148,8 +223,10 @@ class MainViewModel@Inject constructor(
                 openSkyNetworkService.getPlaneLocation(lomax, lomin, lamax, lamin)
             }.onSuccess {
                 val aircraftList = ResponseMapper.createMapper(it)
+                val aircraftMapperList = AircraftListMapper.createAircraftList(state.value.SettingsConfig, aircraftList)
                 _state.value = _state.value.copy(
-                    aircraftList = aircraftList
+                    aircraftList = aircraftList,
+                    aircraftMapperList = aircraftMapperList
                 )
             }.onFailure {
                 Timber.tag(TAG).i("exception = $it")
@@ -157,19 +234,44 @@ class MainViewModel@Inject constructor(
         }
     }
 
-    fun updateCurrentPosition(position: LatLng) {
-        _state.value = _state.value.copy(
-            currentPosition = LatLng(position.latitude + Math.random(), position.longitude + Math.random()),
-            isAirportInfoVisible = false,
-            isAircraftInfoVisible = false,
-            isMainControlPanelVisible = true,
-            isAircraftDetailVisible = false,
-            isSettingPageVisible = false,
-            isMainSearchBarVisible = true,
-            isFilterPageVisible = false,
-            isSpotSheetVisible = false,
-            isFriendSheetVisible = false
-        )
+    @RequiresApi(Build.VERSION_CODES.S)
+    fun updateCurrentPosition() {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+
+        val loc = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+        if (loc != null) {
+            _state.value = _state.value.copy(
+                currentPosition = LatLng(loc.latitude, loc.longitude),
+                isAirportInfoVisible = false,
+                isAircraftInfoVisible = false,
+                isMainControlPanelVisible = true,
+                isAircraftDetailVisible = false,
+                isSettingPageVisible = false,
+                isMainSearchBarVisible = true,
+                isFilterPageVisible = false,
+                isSpotSheetVisible = false,
+                isSpotInfoVisible = false,
+                isFriendSheetVisible = false,
+                isPersonalDrawer = false
+            )
+        }
     }
 
     fun showSettingsPage() {
@@ -182,7 +284,9 @@ class MainViewModel@Inject constructor(
             isMainSearchBarVisible = false,
             isFilterPageVisible = false,
             isSpotSheetVisible = false,
-            isFriendSheetVisible = false
+            isSpotInfoVisible = false,
+            isFriendSheetVisible = false,
+            isPersonalDrawer = false
         )
     }
 
@@ -196,7 +300,9 @@ class MainViewModel@Inject constructor(
             isMainSearchBarVisible = false,
             isFilterPageVisible = true,
             isFriendSheetVisible = false,
-            isSpotSheetVisible = false
+            isSpotInfoVisible = false,
+            isSpotSheetVisible = false,
+            isPersonalDrawer = false
         )
     }
 
@@ -210,7 +316,9 @@ class MainViewModel@Inject constructor(
             isMainSearchBarVisible = false,
             isFilterPageVisible = false,
             isFriendSheetVisible = false,
-            isSpotSheetVisible = true
+            isSpotInfoVisible = false,
+            isSpotSheetVisible = true,
+            isPersonalDrawer = false
         )
     }
 
@@ -224,13 +332,18 @@ class MainViewModel@Inject constructor(
             isMainSearchBarVisible = false,
             isFilterPageVisible = false,
             isFriendSheetVisible = true,
-            isSpotSheetVisible = false
+            isSpotInfoVisible = false,
+            isSpotSheetVisible = false,
+            isPersonalDrawer = false
         )
     }
 
-    fun updateConfig(settingsConfig: SettingsConfig) {
+    private fun updateConfig(settingsConfig: SettingsConfig) {
         viewModelScope.launch(Dispatchers.IO) {
             configRepository.saveConfig(settingsConfig)
+            _state.value = _state.value.copy(
+                aircraftMapperList = AircraftListMapper.createAircraftList(settingsConfig, state.value.aircraftList)
+            )
         }
     }
 
@@ -328,18 +441,6 @@ class MainViewModel@Inject constructor(
         updateConfig(_state.value.SettingsConfig)
     }
 
-    fun login(email: String, password: String) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-
-            }.onSuccess {
-
-            }.onFailure {
-
-            }
-        }
-    }
-
     fun showSpotInfo(spotsModel: SpotModel) {
         _state.value = _state.value.copy(
             spotModel = spotsModel,
@@ -351,12 +452,23 @@ class MainViewModel@Inject constructor(
             isMainSearchBarVisible = false,
             isFilterPageVisible = false,
             isFriendSheetVisible = false,
-            isSpotSheetVisible = true
+            isSpotInfoVisible = true,
+            isSpotSheetVisible = false,
+            isPersonalDrawer = false
         )
     }
 
     fun sendMessage(message: String) {
+    }
 
+    fun signOut(openAndPopUp: (String, String) -> Unit) {
+        viewModelScope.launch {
+            accountService.signOut()
+        }
+        openAndPopUp(
+            MapsActivity.LOGIN_SCREEN,
+            MapsActivity.MAIN_SCREEN
+        )
     }
 
 //    override fun onStart(owner: LifecycleOwner) {
@@ -388,17 +500,21 @@ data class MainViewState(
     val isSettingPageVisible: Boolean = false,
     val isFilterPageVisible: Boolean = false,
     val isFriendSheetVisible: Boolean = false,
+    val isSpotInfoVisible: Boolean = false,
     val isSpotSheetVisible: Boolean = false,
+    val isPersonalDrawer: Boolean = false,
     val airportModel: AirportModel = AirportModel(),
     val planeModel: PlaneModel = PlaneModel(),
     val spotModel: SpotModel = SpotModel(),
     val planeDetailRecords: List<PlaneModelDetail> = emptyList(),
-    val currentPlaneModelDetail: PlaneModelDetail = PlaneModelDetail(),
+    val currentPlaneModelDetail: PlaneModelDetail? = null,
     val aircraftList: List<PlaneModel> = emptyList(),
+    val aircraftMapperList: List<PlaneModel> = emptyList(),
     val spotList: List<SpotModel> = listOf(
         SpotModel(name = "attraction", latitude = 22.0, longitude = 121.0),
         SpotModel(name = "attraction", latitude = 23.0, longitude = 121.0)
     ),
     val currentPosition: LatLng = LatLng(22.0, 121.0),
-    val SettingsConfig: SettingsConfig = SettingsConfig()
+    val SettingsConfig: SettingsConfig = SettingsConfig(),
+    val isAnonymous: Boolean = true
 )

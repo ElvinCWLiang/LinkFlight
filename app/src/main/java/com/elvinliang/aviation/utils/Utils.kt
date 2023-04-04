@@ -6,22 +6,12 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Icon
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.tooling.preview.Preview
-import com.elvinliang.aviation.R
 import com.elvinliang.aviation.presentation.component.settings.AircraftLabel
+import com.elvinliang.aviation.presentation.component.settings.SettingsConfig
 import com.elvinliang.aviation.remote.dto.PlaneModel
 import com.elvinliang.aviation.remote.dto.Posts
 import java.io.IOException
@@ -65,6 +55,10 @@ fun String?.orUnknown(): String {
     return this ?: "N/A"
 }
 
+fun Long.toTime(): String {
+    return this.toString()
+}
+
 fun Modifier.clickableWithoutRipple(
     interactionSource: MutableInteractionSource,
     onClick: () -> Unit
@@ -80,34 +74,7 @@ fun Modifier.clickableWithoutRipple(
     }
 )
 
-@Preview
-@Composable
-fun textccc() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.light_blue))
-    ) {
-        Icon(
-            BitmapGenerater.createBitMap(
-                R.drawable.airport,
-                "a320a320a320",
-                context = LocalContext.current,
-                type = 1
-            ).asImageBitmap(),
-            contentDescription = "",
-            modifier = Modifier
-                .align(Alignment.Center)
-                .background(
-                    colorResource(
-                        R.color.white
-                    )
-                )
-        )
-    }
-}
-
-object BitmapGenerater {
+object BitmapGenerator {
     fun createBitMap(
         @DrawableRes
         ImageResource: Int,
@@ -153,6 +120,23 @@ object BitmapGenerater {
         canvas.drawBitmap(src, size.toFloat(), size.toFloat(), null)
         canvas.restore()
         return result
+    }
+}
+
+object AircraftListMapper {
+    fun createAircraftList(settingsConfig: SettingsConfig, planeModelList: List<PlaneModel>): List<PlaneModel> {
+        val planeList = planeModelList.toMutableList()
+        planeList.removeIf {
+            it.geo_altitude != null &&
+                it.geo_altitude!! < settingsConfig.altitudeScope.first ||
+                it.geo_altitude!! > settingsConfig.altitudeScope.second
+        }
+        planeList.removeIf {
+            it.velocity != null &&
+                it.velocity!! < settingsConfig.speedScope.first ||
+                it.velocity!! > settingsConfig.speedScope.second
+        }
+        return planeList
     }
 }
 

@@ -1,4 +1,4 @@
-package com.elvinliang.aviation.presentation.component.filter
+package com.elvinliang.aviation.presentation.component.settings.filter
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import com.elvinliang.aviation.R
 import com.elvinliang.aviation.presentation.component.settings.SettingsPageTopBar
+import com.elvinliang.aviation.theme.Button
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,11 +47,11 @@ fun FilterPage(
                     activeTrackColor = MaterialTheme.colorScheme.onSecondaryContainer
                 ),
                 valueRange = 0f..65000f,
-                steps = 1000
+                steps = 100
             )
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = rangeAltitude.start.toString(), color = colorResource(id = R.color.dark_gray))
-                Text(text = rangeAltitude.endInclusive.toString(), color = colorResource(id = R.color.dark_gray))
+                Text(text = rangeAltitude.start.toInt().toString(), color = colorResource(id = R.color.dark_gray))
+                Text(text = rangeAltitude.endInclusive.toInt().toString(), color = colorResource(id = R.color.dark_gray))
             }
         }
 
@@ -65,7 +66,7 @@ fun FilterPage(
                     activeTrackColor = MaterialTheme.colorScheme.onSecondaryContainer
                 ),
                 valueRange = 0f..1000f,
-                steps = 10
+                steps = 20
             )
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = rangeSpeed.start.toInt().toString(), color = colorResource(id = R.color.dark_gray))
@@ -75,6 +76,7 @@ fun FilterPage(
 
         Button(
             modifier = Modifier.fillMaxWidth(),
+            colors = MaterialTheme.colorScheme.Button,
             onClick = {
                 iconClick(
                     Pair(rangeAltitude.start, rangeAltitude.endInclusive),
@@ -82,7 +84,7 @@ fun FilterPage(
                 )
             }
         ) {
-            Text(text = "Apply")
+            Text(text = "Apply", color = MaterialTheme.colorScheme.primary)
         }
     }
 }

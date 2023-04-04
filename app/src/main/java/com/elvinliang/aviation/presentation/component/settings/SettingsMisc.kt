@@ -5,6 +5,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Divider
@@ -44,7 +45,7 @@ fun SettingsMisc(
 
     LazyColumn(modifier = modifier, content = {
         itemsIndexed(temperatureList) { index, item ->
-            SettingsMiscItem(modifier = Modifier, item) {
+            SettingsMiscItem(modifier = Modifier.padding(4.dp), item) {
                 when (item.type) {
                     MiscItemType.TEMPERATURE -> {
                         iconClick(SettingsMiscIcon.TemperatureIcon(it))

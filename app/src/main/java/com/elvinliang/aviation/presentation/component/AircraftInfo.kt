@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.elvinliang.aviation.R
+import com.elvinliang.aviation.presentation.component.main.BottomSheetItem
 import com.elvinliang.aviation.remote.dto.Airport
 import com.elvinliang.aviation.remote.dto.PlaneModel
 import com.elvinliang.aviation.remote.dto.PlaneModelDetail
@@ -49,10 +50,10 @@ fun AircraftInfo(
     bottomNavigationClick: (NavigationBarIconType) -> Unit
 ) {
     val bottomSheetItemList = listOf(
-        BottomSheetItem("more", R.drawable.newplane, NavigationBarIconType.Route),
+//        BottomSheetItem("more", R.drawable.newplane, NavigationBarIconType.Route),
         BottomSheetItem("more", R.drawable.mainmoreicon, NavigationBarIconType.MoreInfo),
-        BottomSheetItem("more", R.drawable.bottompanelfollowicon, NavigationBarIconType.Follow),
-        BottomSheetItem("more", R.drawable.controlbarshareicon, NavigationBarIconType.Share)
+//        BottomSheetItem("more", R.drawable.bottompanelfollowicon, NavigationBarIconType.Follow),
+//        BottomSheetItem("share", R.drawable.controlbarshareicon, NavigationBarIconType.Share)
     )
 
     Column(modifier = modifier) {
@@ -115,7 +116,7 @@ fun AircraftInfo(
 fun MoreInfoCallSignWithCompany(modifier: Modifier = Modifier, callSign: String, company: String) {
     Column(modifier) {
         Text(text = callSign, color = colorResource(id = R.color.orange))
-        Text(text = company)
+        Text(text = company, color = colorResource(id = R.color.black))
     }
 }
 
@@ -197,7 +198,7 @@ fun MoreInfoProgress(
             )
             Icon(
                 painter = painterResource(id = R.drawable.newplane), contentDescription = "",
-                tint = colorResource(id = R.color.light_blue),
+                tint = colorResource(id = R.color.dark_gray),
                 modifier = Modifier
                     .size(24.dp)
                     .offset(x = with(LocalDensity.current) { (size.width.toDp() - 24.dp) * percentage })

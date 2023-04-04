@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -53,6 +54,7 @@ fun SettingsMap(
             SettingsIconRow(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(4.dp)
                     .height(180.dp),
                 settingsConfig.mapType, iconMapTypeList
             ) {
@@ -71,12 +73,15 @@ fun SettingsMap(
             Divider()
         }
 
+//        item {
+//            Text(text = "MAP BRIGHTNESS")
+//            Slider(value = settingsConfig.brightness, onValueChange = {
+//                brightnessChange.invoke(it)
+//            })
+//            Divider()
+//        }
         item {
-            Text(text = "MAP BRIGHTNESS")
-            Slider(value = settingsConfig.brightness, onValueChange = {
-                brightnessChange.invoke(it)
-            })
-            Divider()
+            Spacer(Modifier.height(8.dp))
         }
 
         item {
@@ -89,30 +94,29 @@ fun SettingsMap(
                 iconClick.invoke(SettingsIconAction.IsShowAirport(isShow = it))
             }
             Divider()
-
         }
 
-        item {
-            SettingsIconDot(
-                modifier = Modifier,
-                icon = iconAirportType,
-                isEnabled = settingsConfig.showMyLocation,
-                description = "mylocation description"
-            ) {
-                iconClick.invoke(SettingsIconAction.IsShowMyLocation(isShow = it))
-            }
-        }
+//        item {
+//            SettingsIconDot(
+//                modifier = Modifier,
+//                icon = iconAirportType,
+//                isEnabled = settingsConfig.showMyLocation,
+//                description = "mylocation description"
+//            ) {
+//                iconClick.invoke(SettingsIconAction.IsShowMyLocation(isShow = it))
+//            }
+//        }
 
-        item {
-            SettingsIconDot(
-                modifier = Modifier,
-                icon = iconPhotographyType,
-                isEnabled = settingsConfig.showPhotography,
-                description = "photographer"
-            ) {
-                iconClick.invoke(SettingsIconAction.IsShowPhotography(isShow = it))
-            }
-        }
+//        item {
+//            SettingsIconDot(
+//                modifier = Modifier,
+//                icon = iconPhotographyType,
+//                isEnabled = settingsConfig.showPhotography,
+//                description = "photographer"
+//            ) {
+//                iconClick.invoke(SettingsIconAction.IsShowPhotography(isShow = it))
+//            }
+//        }
     })
 
 //    ScrollableTabRow(selectedTabIndex = 1) {

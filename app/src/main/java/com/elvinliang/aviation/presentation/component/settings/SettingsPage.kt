@@ -64,7 +64,7 @@ fun SettingPage(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(colorResource(id = R.color.black_80))
+                .background(colorResource(id = R.color.dark_gray))
                 .padding(vertical = 4.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -85,7 +85,9 @@ fun SettingPage(
         }
 
         HorizontalPager(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorResource(id = R.color.light_gray)),
             pageCount = 2,
             state = pagerState
         ) { page ->

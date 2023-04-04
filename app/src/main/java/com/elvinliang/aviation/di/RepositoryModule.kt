@@ -17,7 +17,7 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun configRepository(
+    fun provideConfigRepository(
         sharedPreferences: SharedPreferences
     ): ConfigRepository {
         return ConfigRepositoryImpl(sharedPreferences)

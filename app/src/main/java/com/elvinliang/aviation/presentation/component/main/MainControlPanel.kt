@@ -1,4 +1,4 @@
-package com.elvinliang.aviation.presentation.component
+package com.elvinliang.aviation.presentation.component.main
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -17,7 +17,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,9 +33,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.elvinliang.aviation.R
+import com.elvinliang.aviation.theme.LoginPageTheme
 
 @Composable
 fun MainControlPanel(modifier: Modifier = Modifier, iconClick: (MainControlPanelIconType) -> Unit) {
+    var showLogOutButton by remember {
+        mutableStateOf(false)
+    }
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
@@ -39,13 +48,23 @@ fun MainControlPanel(modifier: Modifier = Modifier, iconClick: (MainControlPanel
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             DotElement(
-                modifier = Modifier.clickable { iconClick.invoke(MainControlPanelIconType.NavigateIcon) },
+                modifier = Modifier.clickable { iconClick(MainControlPanelIconType.NavigateIcon) },
                 imgResource = R.drawable.controlbarnavigationicon
             )
-            DotElement(
-                modifier = Modifier.clickable { iconClick.invoke(MainControlPanelIconType.MoreIcon) },
-                imgResource = R.drawable.mainmoreicon
-            )
+
+            Row {
+                if (showLogOutButton) {
+                    DotElement(
+                        modifier = Modifier.clickable { iconClick(MainControlPanelIconType.MoreIcon) },
+                        title = "F&Q",
+                        imgResource = R.drawable.controlbar_faq_icon
+                    )
+                }
+//                DotElement(
+//                    modifier = Modifier.clickable { showLogOutButton = !showLogOutButton },
+//                    imgResource = R.drawable.mainmoreicon
+//                )
+            }
         }
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -61,8 +80,8 @@ fun MainControlPanel(modifier: Modifier = Modifier, iconClick: (MainControlPanel
                 BarElementIcon("Settings", R.drawable.controlbarsettingsicon, MainControlPanelIconType.SettingIcon),
                 BarElementIcon("Filter", R.drawable.controlbarfiltericon, MainControlPanelIconType.FilterIcon),
                 BarElementIcon("Plane", R.drawable.airplane, MainControlPanelIconType.PlaneIcon),
-                BarElementIcon("Spot", R.drawable.controlbar_group_icon, MainControlPanelIconType.SpotIcon),
-                BarElementIcon("Friends", R.drawable.controlbar_friend_icon, MainControlPanelIconType.FriendIcon)
+//                BarElementIcon("Spot", R.drawable.controlbar_group_icon, MainControlPanelIconType.SpotIcon),
+//                BarElementIcon("Friends", R.drawable.controlbar_friend_icon, MainControlPanelIconType.FriendIcon)
             )
             barElementList.forEach {
                 BarElement(
@@ -103,26 +122,20 @@ fun BarElement(
 ) {
     IconButton(
         modifier = modifier,
-        onClick = { onClickAction?.invoke() }) {
+        onClick = { onClickAction?.invoke() }
+    ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(painter = painterResource(imgResource), contentDescription = "", modifier = Modifier.size(30.dp))
+            Icon(painter = painterResource(imgResource), tint = MaterialTheme.colorScheme.primary, contentDescription = "", modifier = Modifier.size(30.dp))
             Text(text = title, color = colorResource(id = R.color.white), textAlign = TextAlign.Center, fontSize = 12.sp)
         }
     }
-//    Column(
-//        modifier = modifier.clickable { onClickAction?.invoke() },
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ) {
-//        Image(modifier = Modifier.size(40.dp), painter = painterResource(imgResource), contentDescription = "")
-//        Text(text = title, color = colorResource(id = R.color.white), textAlign = TextAlign.Center)
-//    }
 }
 
 @Composable
 fun DotElement(modifier: Modifier = Modifier, title: String? = null, imgResource: Int) {
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
-        Text(text = title.orEmpty(), color = colorResource(id = R.color.white))
-        Icon(painter = painterResource(id = imgResource), contentDescription = "")
+        Text(text = title.orEmpty(), color = MaterialTheme.colorScheme.primary)
+        Icon(painter = painterResource(id = imgResource), contentDescription = "", tint = MaterialTheme.colorScheme.primary)
     }
 }
 
@@ -135,7 +148,9 @@ fun PreviewMainControlBar() {
 @Preview
 @Composable
 fun PreviewPanel() {
-    MainControlPanel(modifier = Modifier.width(IntrinsicSize.Max)) {}
+    LoginPageTheme(darkTheme = true) {
+        MainControlPanel(modifier = Modifier.width(IntrinsicSize.Max)) {}
+    }
 }
 
 @Preview

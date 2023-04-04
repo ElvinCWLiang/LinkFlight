@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "93735425786",
+    "project_id": "linkflight-6d98e",
+    "storage_bucket": "linkflight-6d98e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93735425786:android:e458ec50a06db00645db43",
+        "android_client_info": {
+          "package_name": "com.elvinliang.aviation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93735425786-etrlg9tvf2nivmei3bglsc29ipn8841i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_siy0sHFlGA-5msgCbvuy4581wnWTW2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93735425786-etrlg9tvf2nivmei3bglsc29ipn8841i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

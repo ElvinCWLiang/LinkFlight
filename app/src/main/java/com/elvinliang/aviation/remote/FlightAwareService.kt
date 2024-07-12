@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface FlightAwareService {
     // https://aeroapi.flightaware.com/aeroapi/flights/JAL325?ident_type=designator
-    @GET("/aeroapi/flights/{ident}") // Get information for a flight, $0.005 usd/set
+    @GET("/aeroapi/flights.addNetworkInterceptors()/{ident}") // Get information for a flight, $0.005 usd/set
     suspend fun getFlights(
         @Path("ident") callsign: String,
         @Query("ident_type") ident_type: String

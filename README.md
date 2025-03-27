@@ -1,6 +1,6 @@
 # LinkFlight
 This is a sample to track the flight with OpenSkyNetwork Api. We use Retrofit as our internet connection component.
-
+多一行
 Version 1 Features:
 1. The plane location freshes every 10 seconds.
 2. User can click the plane icon to check the icao & sign name of the plane.

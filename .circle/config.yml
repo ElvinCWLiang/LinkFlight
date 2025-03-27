@@ -1,0 +1,24 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/android:2023.09.1  # 官方支援 Android SDK 的 image
+    working_directory: ~/project
+
+    steps:
+      - checkout
+
+      - run:
+          name: 授權 gradlew
+          command: chmod +x ./gradlew
+
+      - run:
+          name: 建置 Debug APK
+          command: ./gradlew assembleDebug
+
+workflows:
+  version: 2
+  build-workflow:
+    jobs:
+      - build

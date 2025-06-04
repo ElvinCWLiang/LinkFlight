@@ -54,7 +54,7 @@ fun SettingPage(
     brightnessChange: (Float) -> Unit,
     miscPageAction: (SettingsMiscIcon) -> Unit,
 ) {
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(pageCount = { 10 })
     val pageName = listOf("MAP", "MISC")
     val coroutineScope = rememberCoroutineScope()
 
@@ -88,7 +88,6 @@ fun SettingPage(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = colorResource(id = R.color.light_gray)),
-            pageCount = 2,
             state = pagerState
         ) { page ->
             // Our page content

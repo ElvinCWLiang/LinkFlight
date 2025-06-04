@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.IconToggleButton
@@ -254,7 +255,7 @@ fun PreviewSettingsMap() {
 @Composable
 fun testButton() {
     // Display 10 items
-    HorizontalPager(modifier = Modifier.fillMaxSize(), pageCount = 10) { page ->
+    HorizontalPager(modifier = Modifier.fillMaxSize(), state = PagerState(pageCount = { 10 })) { page ->
         // Our page content
         Text(
             text = "Page: $page",

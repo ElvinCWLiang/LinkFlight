@@ -90,7 +90,7 @@ object BitmapGenerator {
         val width = src.width + size * 2
         val height = src.height + size * 2
 
-        val result = Bitmap.createBitmap(width, height, src.config)
+        val result = Bitmap.createBitmap(width, height, src.config!!)
         val canvas = Canvas(result)
         val textPaint = Paint()
         textPaint.textAlign = Paint.Align.CENTER

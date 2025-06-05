@@ -71,45 +71,57 @@ ktlint {
 
 dependencies {
     // Hilt
-    implementation     libs.hilt.android
-    implementation     libs.hilt.navigation.compose
-    implementation libs.compose
+    implementation libs.hilt.android
+    implementation libs.hilt.navigation.compose
 //    implementation libs.androidx.compose.material.material
-    kapt                libs.hilt.compiler
+    kapt libs.hilt.compiler
 
     // Play Services
-    implementation     libs.play.services.location
-    implementation     libs.play.services.maps
+    implementation libs.play.services.location
+    implementation libs.play.services.maps
+
+    // Koin (BOM + individual libraries)
+    implementation platform(libs.koin.bom)
+    implementation libs.koin.core
+    implementation libs.koin.android
+    implementation libs.koin.compat
+    implementation libs.koin.navigation
+    implementation libs.koin.startup
+    implementation libs.koin.compose
+    implementation libs.koin.composeviewmodel
+    implementation libs.koin.composeviewmodel.navigation
+    implementation libs.koin.androidx.compose
+    implementation libs.koin.androidx.composenavigation
 
     // Firebase (BOM + individual libraries)
-    implementation     platform(libs.firebase.bom)
-    implementation     libs.firebase.analytics.ktx
-    implementation     libs.firebase.auth.ktx
-    implementation     libs.firebase.messaging
-    implementation     libs.firebase.messaging.ktx
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.analytics.ktx
+    implementation libs.firebase.auth.ktx
+    implementation libs.firebase.messaging
+    implementation libs.firebase.messaging.ktx
 
     // AndroidX Core & Layout
-    implementation     libs.core.ktx
-    implementation     libs.appcompat
-    implementation     libs.constraintlayout
+    implementation libs.core.ktx
+    implementation libs.appcompat
+    implementation libs.constraintlayout
 
     // Material & UI
-    implementation     libs.material                  // Material Design 2
-    implementation     libs.androidx.material         // Material Design 2 (alternate)
-    implementation     libs.material3                 // Material Design 3
-    implementation     libs.androidx.foundation       // Foundation components
-    implementation     libs.androidx.ui               // Core UI toolkit
-    implementation     libs.androidx.ui.tooling.preview
+    implementation libs.material                  // Material Design 2
+    implementation libs.androidx.material         // Material Design 2 (alternate)
+    implementation libs.material3                 // Material Design 3
+    implementation libs.androidx.foundation       // Foundation components
+    implementation libs.androidx.ui               // Core UI toolkit
+    implementation libs.androidx.ui.tooling.preview
     debugImplementation libs.androidx.ui.tooling
 //    androidTestImplementation libs.androidx.ui.test.junit4
     debugImplementation libs.androidx.ui.test.manifest
-    implementation     libs.androidx.material.icons.core
-    implementation     libs.androidx.material.icons.extended
-    implementation     libs.androidx.material3.window.size.class1
+    implementation libs.androidx.material.icons.core
+    implementation libs.androidx.material.icons.extended
+    implementation libs.androidx.material3.window.size.class1
 //    implementation     libs.androidx.lifecycle.runtime.compose
-    implementation     libs.androidx.activity.compose
+    implementation libs.androidx.activity.compose
 //    implementation     libs.androidx.lifecycle.viewmodel.compose
-    implementation     libs.androidx.runtime.livedata
+    implementation libs.androidx.runtime.livedata
 
     // Compose BOM
     def composeBom = libs.androidx.compose.bom
@@ -117,31 +129,31 @@ dependencies {
     androidTestImplementation composeBom
 
     // Maps Compose
-    implementation     libs.maps.compose
+    implementation libs.maps.compose
 
     // Accompanist
-    implementation     libs.accompanist.navigation.material
-    implementation     libs.accompanist.permissions
+    implementation libs.accompanist.navigation.material
+    implementation libs.accompanist.permissions
 
     // WorkManager (Kotlin + Coroutines)
-    implementation     libs.work.runtime.ktx
-    implementation     libs.work.gcm
-    implementation     libs.work.multiprocess
+    implementation libs.work.runtime.ktx
+    implementation libs.work.gcm
+    implementation libs.work.multiprocess
     androidTestImplementation libs.work.testing
 
     // Networking
-    implementation     libs.retrofit
-    implementation     libs.converter.gson
-    implementation     libs.okhttp
-    implementation     libs.gson
-    implementation     libs.moshi
+    implementation libs.retrofit
+    implementation libs.converter.gson
+    implementation libs.okhttp
+    implementation libs.gson
+    implementation libs.moshi
     // kapt          libs.moshi.kotlin.codegen
 
     // Image Loading
-    implementation     libs.glide
+    implementation libs.glide
 
     // Logging
-    implementation     libs.timber
+    implementation libs.timber
 
     // Debug / Flipper
     debugImplementation libs.flipper
@@ -150,11 +162,11 @@ dependencies {
     releaseImplementation libs.flipper.noop
 
     // Testing
-    testImplementation     libs.junit.jupiter.api
-    testRuntimeOnly        libs.junit.jupiter.engine
+    testImplementation libs.junit.jupiter.api
+    testRuntimeOnly libs.junit.jupiter.engine
 //    testImplementation     libs.kotest.runner.junit5.jvm
-    testImplementation     libs.kotest.assertions.core
-    testImplementation     libs.kotest.property
-    testImplementation     libs.mockito.core
+    testImplementation libs.kotest.assertions.core
+    testImplementation libs.kotest.property
+    testImplementation libs.mockito.core
     androidTestImplementation libs.espresso.core
 }

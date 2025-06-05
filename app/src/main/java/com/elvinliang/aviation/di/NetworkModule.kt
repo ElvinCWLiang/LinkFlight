@@ -16,6 +16,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -106,4 +107,8 @@ object NetworkModule {
     fun provideOpenSkyNetworkService(
         @Named("provideOpenSkyNetworkRetrofit") retrofit: Retrofit
     ): OpenSkyNetworkService = retrofit.create(OpenSkyNetworkService::class.java)
+}
+
+val networkModule = module {
+
 }

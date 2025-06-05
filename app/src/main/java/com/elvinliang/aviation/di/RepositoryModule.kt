@@ -3,12 +3,14 @@ package com.elvinliang.aviation.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.elvinliang.aviation.common.Constants.sharePreferenceKey
 import com.elvinliang.aviation.data.ConfigRepository
 import com.elvinliang.aviation.data.ConfigRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import javax.inject.Singleton
 
@@ -34,5 +36,12 @@ object RepositoryModule {
 }
 
 val repositoryModule = module {
-
+    single<ConfigRepository> {
+        ConfigRepositoryImpl(
+            sharedPreference = androidContext().getSharedPreferences(
+                sharePreferenceKey,
+                Context.MODE_PRIVATE
+            ),
+        )
+    }
 }

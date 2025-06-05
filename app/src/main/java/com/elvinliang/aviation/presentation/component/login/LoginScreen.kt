@@ -9,14 +9,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -39,36 +41,65 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.elvinliang.aviation.R
 import com.elvinliang.aviation.presentation.MapsActivity.Companion.LOGIN_SCREEN
 import com.elvinliang.aviation.presentation.MapsActivity.Companion.MAIN_SCREEN
 import com.elvinliang.aviation.presentation.component.SimpleImage
 import com.elvinliang.aviation.presentation.viewmodel.LoginViewModel
+import com.elvinliang.aviation.presentation.viewmodel.LoginViewState
 import com.elvinliang.aviation.theme.Button
+import com.elvinliang.aviation.theme.LoginPageTheme
+import com.elvinliang.aviation.theme.color_DCA4C9F0
+import com.elvinliang.aviation.theme.color_map_blue
 import com.elvinliang.aviation.utils.clickableWithoutRipple
 import kotlinx.coroutines.delay
+import org.koin.androidx.compose.koinViewModel
 
 enum class LoginScreenType {
     Login, Register
 }
 
 @Composable
-fun LoginScreen(
+fun LoginScene(
     modifier: Modifier,
-    viewModel: LoginViewModel = hiltViewModel(),
+    viewModel: LoginViewModel = koinViewModel(),
     openAndPopUp: (String, String) -> Unit
 ) {
-    var loginScreenType by remember { mutableStateOf(LoginScreenType.Login) }
+    val state = viewModel.state.collectAsStateWithLifecycle().value
+
+    LoginScreen(
+        modifier = modifier,
+        state = state,
+        openAndPopUp = openAndPopUp,
+        action = {
+            viewModel.handleAction(it)
+        }
+    )
+}
+
+sealed class ViewAction {
+    data class UpdateLoading(val isLoading: Boolean): ViewAction()
+//    data class openAndPopUp()
+    data class Login(val email: String,val password: String) : ViewAction()
+}
+
+@Composable
+fun LoginScreen(
+    modifier: Modifier,
+    state: LoginViewState,
+    initLoginScreenType: LoginScreenType = LoginScreenType.Login,
+    openAndPopUp: (String, String) -> Unit,
+    action: (ViewAction) -> Unit
+) {
+    var loginScreenType by remember { mutableStateOf(initLoginScreenType) }
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
-    val uiState by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(true) {
-        viewModel.isLoading(true)
+    LaunchedEffect(Unit) {
+        action.invoke(ViewAction.UpdateLoading(true))
         delay(1000L)
-        viewModel.onAppStart(openAndPopUp)
+//        viewModel.onAppStart(openAndPopUp)
     }
 
     Box(
@@ -84,25 +115,16 @@ fun LoginScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize(),
-            contentAlignment = Alignment.TopCenter
-        ) {
-            SimpleImage(
-                modifier = Modifier.fillMaxSize(),
-                imageResource = R.drawable.app_login_background,
-                contentScale = ContentScale.FillBounds
-            )
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.60f)
-                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(color = colorResource(id = R.color.orange))
-                .padding(10.dp),
             contentAlignment = Alignment.Center
         ) {
-            if (uiState.isLoading) {
+            SimpleImage(
+                modifier = Modifier.fillMaxSize().blur(6.dp),
+                imageResource = R.drawable.app_login_background,
+                contentScale = ContentScale.FillBounds,
+
+            )
+
+            if (state.isLoading) {
                 CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
             }
             if (loginScreenType == LoginScreenType.Login) {
@@ -111,16 +133,17 @@ fun LoginScreen(
                         loginScreenType = LoginScreenType.Register
                     },
                     signIn = { email, password ->
-                        viewModel.login(email, password, openAndPopUp)
+                        action.invoke(ViewAction.Login(email, password))
+//                        viewModel.login(email, password, openAndPopUp)
                     },
-                    anoymousSignIn = {
+                    anonymousSignIn = {
                         openAndPopUp(MAIN_SCREEN, LOGIN_SCREEN)
                     }
                 )
             } else {
                 RegisterBlock(
                     register = { email, password ->
-                        viewModel.register(email, password, openAndPopUp)
+//                        viewModel.register(email, password, openAndPopUp)
                     },
                     signIn = {
                         loginScreenType = LoginScreenType.Login
@@ -191,7 +214,7 @@ fun RegisterBlock(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(0.8f),
 
-            )
+                )
 
             OutlinedTextField(
                 value = password,
@@ -244,7 +267,10 @@ fun RegisterBlock(
                 }
             )
 
-            Button(onClick = { register(email, password) }, colors = MaterialTheme.colorScheme.Button) {
+            Button(
+                onClick = { register(email, password) },
+                colors = MaterialTheme.colorScheme.Button
+            ) {
                 Text(text = "Register", color = MaterialTheme.colorScheme.primary)
             }
         }
@@ -255,7 +281,7 @@ fun RegisterBlock(
 private fun SignInBlock(
     createAccount: () -> Unit,
     signIn: (String, String) -> Unit,
-    anoymousSignIn: () -> Unit
+    anonymousSignIn: () -> Unit
 ) {
     var passwordVisibility by remember {
         mutableStateOf(true)
@@ -264,17 +290,23 @@ private fun SignInBlock(
     var email by remember { mutableStateOf("") }
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-
         Text(
             text = "visitor mode",
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .clickable {
-                    anoymousSignIn.invoke()
+                    anonymousSignIn.invoke()
                 }
         )
 
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+                .clip(
+                    RoundedCornerShape(36.dp)
+                )
+                .background(color = color_DCA4C9F0)
+                .padding(all = 24.dp)
+        ) {
             Text(
                 text = "Sign In",
                 style = TextStyle(
@@ -284,7 +316,7 @@ private fun SignInBlock(
                 fontSize = 30.sp
             )
 
-            Spacer(modifier = Modifier.padding(20.dp))
+            Spacer(modifier = Modifier.padding(16.dp))
 
             OutlinedTextField(
                 value = email,
@@ -298,7 +330,7 @@ private fun SignInBlock(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(0.8f),
 
-            )
+                )
 
             OutlinedTextField(
                 value = password,
@@ -325,11 +357,20 @@ private fun SignInBlock(
                 }
             )
 
-            Button(onClick = {
-                signIn(email, password)
-            }, colors = MaterialTheme.colorScheme.Button) {
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = {
+                    signIn(email, password)
+                }, colors = MaterialTheme.colorScheme.Button.copy(
+                    containerColor = color_map_blue
+                ),
+                modifier = Modifier.padding(horizontal = 40.dp)
+            ) {
                 Text(text = "Sign in", color = MaterialTheme.colorScheme.primary)
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = "create an account",
@@ -344,8 +385,28 @@ private fun SignInBlock(
 
 @Composable
 @Preview
-fun testtt() {
-    Button(onClick = { }, colors = MaterialTheme.colorScheme.Button) {
-        Text(text = "Register", color = MaterialTheme.colorScheme.tertiary)
+fun PreviewLoginScreen() {
+    LoginPageTheme {
+        LoginScreen(
+            modifier = Modifier,
+            state = LoginViewState(),
+            openAndPopUp = { _, _ ->
+
+            },
+            action = {}
+        )
     }
 }
+
+@Composable
+@Preview
+fun PreviewSigInInCard() {
+    LoginPageTheme {
+        SignInBlock(
+            createAccount = {},
+            signIn = { email, password -> },
+            anonymousSignIn = {}
+        )
+    }
+}
+

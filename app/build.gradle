@@ -86,7 +86,7 @@ dependencies {
     implementation libs.koin.android
     implementation libs.koin.compat
     implementation libs.koin.navigation
-    implementation libs.koin.startup
+//    implementation libs.koin.startup
     implementation libs.koin.compose
     implementation libs.koin.composeviewmodel
     implementation libs.koin.composeviewmodel.navigation
@@ -151,6 +151,8 @@ dependencies {
 
     // Image Loading
     implementation libs.glide
+    implementation libs.glide.compose
+//    implementation libs.glide.compiler
 
     // Logging
     implementation libs.timber

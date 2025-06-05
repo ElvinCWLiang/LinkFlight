@@ -5,16 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.elvinliang.aviation.model.service.AccountService
 import com.elvinliang.aviation.presentation.MapsActivity.Companion.LOGIN_SCREEN
 import com.elvinliang.aviation.presentation.MapsActivity.Companion.MAIN_SCREEN
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.elvinliang.aviation.presentation.component.login.ViewAction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class LoginViewModel @Inject constructor(
+class LoginViewModel(
     private val accountService: AccountService
 ) : ViewModel() {
     private val _state = MutableStateFlow(LoginViewState())
@@ -26,6 +24,13 @@ class LoginViewModel @Inject constructor(
             _state.value = _state.value.copy(
                 isAnonymous = it.isAnonymous
             )
+        }
+    }
+
+    fun handleAction(action: ViewAction) {
+        when (action) {
+            is ViewAction.Login -> TODO()
+            is ViewAction.UpdateLoading -> TODO()
         }
     }
 

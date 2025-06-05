@@ -7,16 +7,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.elvinliang.aviation.remote.FlightAwareService
-import com.elvinliang.aviation.remote.OpenSkyNetworkService
+import com.elvinliang.aviation.remote.OpenSkyNetworkApi
 import com.elvinliang.aviation.remote.dto.PlaneModel
 import com.elvinliang.aviation.remote.dto.PlaneModelDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-@HiltViewModel
 class MapsViewModel @Inject constructor(
-    private val openSkyNetworkService: OpenSkyNetworkService,
-    private val flightAwareService: FlightAwareService
+    private val openSkyNetworkApi: OpenSkyNetworkApi,
 ) : ViewModel() {
 
     private val TAG = "ev_" + javaClass.simpleName

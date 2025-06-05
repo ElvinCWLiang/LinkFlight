@@ -13,7 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.elvinliang.aviation.presentation.MapsActivity.Companion.LOGIN_SCREEN
 import com.elvinliang.aviation.presentation.MapsActivity.Companion.MAIN_SCREEN
-import com.elvinliang.aviation.presentation.component.login.LoginScreen
+import com.elvinliang.aviation.presentation.component.login.LoginScene
 import com.elvinliang.aviation.presentation.component.main.MainScreen
 import com.elvinliang.aviation.remote.dto.AirportModel
 import kotlinx.coroutines.CoroutineScope
@@ -34,9 +34,9 @@ private fun NavGraphBuilder.linkFlightGraph(
     composable(
         LOGIN_SCREEN,
         content = {
-            LoginScreen(
+            LoginScene(
                 modifier = Modifier,
-                openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }
+                openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
             )
         }
     )

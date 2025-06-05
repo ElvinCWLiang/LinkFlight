@@ -17,5 +17,7 @@ object FirebaseModule {
 }
 
 val firebaseModule = module {
-
+    single<FirebaseAuth> {
+        Firebase.auth
+    }
 }

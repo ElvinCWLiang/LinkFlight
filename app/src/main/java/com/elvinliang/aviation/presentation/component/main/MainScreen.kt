@@ -71,13 +71,14 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel = hiltViewModel(),
+    viewModel: MainViewModel = koinViewModel(),
     airportList: List<AirportModel>,
     openAndPopUp: (String, String) -> Unit
 ) {
@@ -347,7 +348,7 @@ fun MainScreen(
                         ) {
                             when (it) {
                                 is MainControlPanelIconType.NavigateIcon -> {
-                                    viewModel.updateCurrentPosition()
+//                                    viewModel.updateCurrentPosition()
                                 }
                                 is MainControlPanelIconType.SettingIcon -> {
                                     expandBottomSheet(coroutineScope, bottomSheetScaffoldState)

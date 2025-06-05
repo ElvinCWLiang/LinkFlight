@@ -3,7 +3,7 @@ package com.elvinliang.aviation.di
 import com.elvinliang.aviation.common.Constants.URL_FlightAware
 import com.elvinliang.aviation.common.Constants.URL_OpenSkyNetwork
 import com.elvinliang.aviation.remote.FlightAwareService
-import com.elvinliang.aviation.remote.OpenSkyNetworkService
+import com.elvinliang.aviation.remote.OpenSkyNetworkApi
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
@@ -96,19 +96,25 @@ object NetworkModule {
         .client(okHttpClient)
         .build()
 
-    @Singleton
-    @Provides
-    fun provideFlightAwareService(
-        @Named("provideFlightAwareRetrofit") retrofit: Retrofit
-    ): FlightAwareService = retrofit.create(FlightAwareService::class.java)
+//    @Singleton
+//    @Provides
+//    fun provideFlightAwareService(
+//        @Named("provideFlightAwareRetrofit") retrofit: Retrofit
+//    ): FlightAwareService = retrofit.create(FlightAwareService::class.java)
 
     @Singleton
     @Provides
     fun provideOpenSkyNetworkService(
         @Named("provideOpenSkyNetworkRetrofit") retrofit: Retrofit
-    ): OpenSkyNetworkService = retrofit.create(OpenSkyNetworkService::class.java)
+    ): OpenSkyNetworkApi = retrofit.create(OpenSkyNetworkApi::class.java)
 }
 
 val networkModule = module {
+    single<OpenSkyNetworkApi> {
+        val okHttpClient = OkHttpClient.Builder().build()
+        Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(URL_OpenSkyNetwork)
+            .client(okHttpClient).build().create(OpenSkyNetworkApi::class.java)
+    }
 
 }

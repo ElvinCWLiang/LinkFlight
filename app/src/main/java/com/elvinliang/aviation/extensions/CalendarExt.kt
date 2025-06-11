@@ -8,3 +8,6 @@ fun Calendar.isSameDay(calendar: Calendar): Boolean {
 fun Calendar.isSameDayY(calendar: Calendar): Boolean {
     return this.firstDayOfWeek == calendar.firstDayOfWeek
 }
+fun Calendar.isSameDayYY(calendar: Calendar): Boolean {
+    return this.firstDayOfWeek == calendar.firstDayOfWeek
+}

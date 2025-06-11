@@ -1,46 +1,47 @@
 [versions]
 accompanistNavigationMaterial = "0.29.0-alpha"
-accompanistPermissions        = "0.31.0-alpha"
-activityCompose               = "1.10.1"
-appcompat                     = "1.7.0"
-compose                       = "1.0.0-alpha.1"
-composeBom                    = "2025.05.01"
-constraintlayout              = "2.2.1"
-converterGson                 = "2.9.0"
-coreKtx                       = "1.16.0"
-espressoCore                  = "3.6.1"
-firebaseBom                   = "33.14.0"
-firebaseMessaging             = "24.1.1"
-flipper                       = "0.177.0"
-glide                         = "4.16.0"
-gson                          = "2.11.0"
-hiltAndroid                   = "2.56.2"
-hiltNavigationCompose         = "1.2.0"
-junitJupiterApi               = "5.10.0"
-junitJupiterEngine            = "5.10.0"
-kotestAssertionsCore          = "5.6.1"
-kotestProperty                = "5.6.1"
-kotestRunnerJunit5            = "5.6.1"
-lifecycleRuntimeCompose       = "2.9.0"
-lifecycleViewmodelCompose     = "2.9.0"
-mapsCompose                   = "2.10.0"
-material                      = "1.12.0"
-mockitoCore                   = "3.12.4"
-moshi                         = "1.13.0"
-moshiKotlinCodegen            = "1.8.0"
-okhttp                        = "4.12.0"
-playServicesLocation          = "21.3.0"
-playServicesMaps              = "19.2.0"
-retrofit                      = "2.9.0"
-soloader                      = "0.10.5"
-timber                        = "5.0.1"
-workGcm                       = "2.10.1"
-workMultiprocess              = "2.10.1"
-workRuntimeKtx                = "2.10.1"
-workTesting                   = "2.10.1"
+accompanistPermissions = "0.31.0-alpha"
+activityCompose = "1.10.1"
+appcompat = "1.7.0"
+compose = "1.0.0-alpha.1"
+composeBom = "2025.05.01"
+constraintlayout = "2.2.1"
+converterGson = "2.9.0"
+coreKtx = "1.16.0"
+espressoCore = "3.6.1"
+firebaseBom = "33.14.0"
+firebaseMessaging = "24.1.1"
+flipper = "0.177.0"
+glide = "4.16.0"
+glideCompose = "1.0.0-beta01"
+gson = "2.11.0"
+hiltAndroid = "2.56.2"
+hiltNavigationCompose = "1.2.0"
+junitJupiterApi = "5.10.0"
+junitJupiterEngine = "5.10.0"
+kotestAssertionsCore = "5.6.1"
+kotestProperty = "5.6.1"
+kotestRunnerJunit5 = "5.6.1"
+lifecycleRuntimeCompose = "2.9.0"
+lifecycleViewmodelCompose = "2.9.0"
+mapsCompose = "2.10.0"
+material = "1.12.0"
+mockitoCore = "3.12.4"
+moshi = "1.13.0"
+moshiKotlinCodegen = "1.8.0"
+okhttp = "4.12.0"
+playServicesLocation = "21.3.0"
+playServicesMaps = "19.2.0"
+retrofit = "2.9.0"
+soloader = "0.10.5"
+timber = "5.0.1"
+workGcm = "2.10.1"
+workMultiprocess = "2.10.1"
+workRuntimeKtx = "2.10.1"
+workTesting = "2.10.1"
 materialVersion = "1.8.2"
 kotlin = "2.1.0"
-composeVersion = "1.0.0-beta01"
+koin = "4.0.3"
 
 [libraries]
 # ------------------------
@@ -51,41 +52,41 @@ androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = 
 # ------------------------
 # Core Compose artifacts (no version.ref—they come from the BOM above)
 # ------------------------
-androidx-ui                         = { module = "androidx.compose.ui:ui" }
-androidx-foundation                 = { module = "androidx.compose.foundation:foundation" }
-androidx-material                   = { module = "androidx.compose.material:material" }
+androidx-ui = { module = "androidx.compose.ui:ui" }
+androidx-foundation = { module = "androidx.compose.foundation:foundation" }
+androidx-material = { module = "androidx.compose.material:material" }
 #androidx-material = {group = "androidx.compose.material", name = "material", version = "" }
 #androidx-material                   = { module = "androidx.compose.material:material" }
-androidx-material-icons-core        = { module = "androidx.compose.material:material-icons-core" }
-androidx-material-icons-extended    = { module = "androidx.compose.material:material-icons-extended" }
+androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-material3-window-size-class1 = { module = "androidx.compose.material3:material3-window-size-class" }
-androidx-runtime-livedata           = { module = "androidx.compose.runtime:runtime-livedata" }
-androidx-ui-tooling                 = { module = "androidx.compose.ui:ui-tooling" }
-androidx-ui-tooling-preview         = { module = "androidx.compose.ui:ui-tooling-preview" }
-androidx-ui-test-junit4             = { module = "androidx.compose.ui:ui-test-junit4" }
-androidx-ui-test-manifest           = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 
 # ------------------------
 # Accompanist (navigation + permissions)
 # ------------------------
 accompanist-navigation-material = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "accompanistNavigationMaterial" }
-accompanist-permissions          = { module = "com.google.accompanist:accompanist-permissions",         version.ref = "accompanistPermissions" }
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 
 # ------------------------
 # AndroidX / Jetpack
 # ------------------------
-androidx-activity-compose           = { module = "androidx.activity:activity-compose",                     version.ref = "activityCompose" }
-appcompat                           = { module = "androidx.appcompat:appcompat",                           version.ref = "appcompat" }
-constraintlayout                    = { module = "androidx.constraintlayout:constraintlayout",             version.ref = "constraintlayout" }
-core-ktx                            = { module = "androidx.core:core-ktx",                                 version.ref = "coreKtx" }
-lifecycle-runtime-compose           = { module = "androidx.lifecycle:lifecycle-runtime-compose",           version.ref = "lifecycleRuntimeCompose" }
-lifecycle-viewmodel-compose         = { module = "androidx.lifecycle:lifecycle-viewmodel-compose",         version.ref = "lifecycleViewmodelCompose" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
+lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 
 # ------------------------
 # Google Play Services
 # ------------------------
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
-play-services-maps     = { module = "com.google.android.gms:play-services-maps",     version.ref = "playServicesMaps" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 
 # ------------------------
 # Google Maps Compose
@@ -95,49 +96,66 @@ maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = 
 # ------------------------
 # Material Design 2 & 3 (non-Compose)
 # ------------------------
-material  = { module = "com.google.android.material:material", version.ref = "material" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
 material3 = { module = "androidx.compose.material3:material3" }
 # (Note: `material3` picks its version from the BOM as well.)
 
 # ------------------------
 # Retrofit / OkHttp / Gson / Moshi
 # ------------------------
-retrofit       = { module = "com.squareup.retrofit2:retrofit",           version.ref = "retrofit" }
-converter-gson = { module = "com.squareup.retrofit2:converter-gson",     version.ref = "converterGson" }
-okhttp         = { module = "com.squareup.okhttp3:okhttp",               version.ref = "okhttp" }
-gson           = { module = "com.google.code.gson:gson",                  version.ref = "gson" }
-moshi          = { module = "com.squareup.moshi:moshi",                   version.ref = "moshi" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshiKotlinCodegen" }
 
 # ------------------------
 # Firebase (managed via BOM)
 # ------------------------
-firebase-bom           = { module = "com.google.firebase:firebase-bom",           version.ref = "firebaseBom" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
-firebase-auth-ktx      = { module = "com.google.firebase:firebase-auth-ktx" }
-firebase-messaging     = { module = "com.google.firebase:firebase-messaging",     version.ref = "firebaseMessaging" }
+firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging", version.ref = "firebaseMessaging" }
 firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebaseMessaging" }
 
 # ------------------------
 # Hilt / Dagger
 # ------------------------
-hilt-android            = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
-hilt-compiler           = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+
+# ------------------------
+# Koin
+# ------------------------
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-android = { module = "io.insert-koin:koin-android" }
+koin-compat = { module = "io.insert-koin:koin-android-compat" }
+koin-workmanager = { module = "io.insert-koin:koin-androidx-workmanager" }
+koin-navigation = { module = "io.insert-koin:koin-androidx-navigation" }
+koin-startup = { module = "io.insert-koin:koin-androidx-startup" }
+koin-compose = { module = "io.insert-koin:koin-compose" }
+koin-composeviewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
+koin-composeviewmodel-navigation = { module = "io.insert-koin:koin-compose-viewmodel-navigation" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose" }
+koin-androidx-composenavigation = { module = "io.insert-koin:koin-androidx-compose-navigation" }
 
 # ------------------------
 # Glide
 # ------------------------
-glide    = { module = "com.github.bumptech.glide:glide",    version.ref = "glide" }
-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }  # needed for annotation processing
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glideCompose" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }  # needed for annotation processing
 
 # ------------------------
 # Flipper (Debug)
 # ------------------------
-flipper               = { module = "com.facebook.flipper:flipper",               version.ref = "flipper" }
+flipper = { module = "com.facebook.flipper:flipper", version.ref = "flipper" }
 flipper-network-plugin = { module = "com.facebook.flipper:flipper-network-plugin", version.ref = "flipper" }
-flipper-noop           = { module = "com.facebook.flipper:flipper-noop",           version.ref = "flipper" }
-soloader               = { module = "com.facebook.soloader:soloader",             version.ref = "soloader" }
+flipper-noop = { module = "com.facebook.flipper:flipper-noop", version.ref = "flipper" }
+soloader = { module = "com.facebook.soloader:soloader", version.ref = "soloader" }
 
 # ------------------------
 # Timber
@@ -147,23 +165,22 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 # ------------------------
 # WorkManager (Kotlin + Coroutines)
 # ------------------------
-work-runtime-ktx   = { module = "androidx.work:work-runtime-ktx",   version.ref = "workRuntimeKtx" }
-work-gcm           = { module = "androidx.work:work-gcm",           version.ref = "workGcm" }
-work-multiprocess  = { module = "androidx.work:work-multiprocess",  version.ref = "workMultiprocess" }
-work-testing       = { module = "androidx.work:work-testing",       version.ref = "workTesting" }
+work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+work-gcm = { module = "androidx.work:work-gcm", version.ref = "workGcm" }
+work-multiprocess = { module = "androidx.work:work-multiprocess", version.ref = "workMultiprocess" }
+work-testing = { module = "androidx.work:work-testing", version.ref = "workTesting" }
 
 # ------------------------
 # Testing
 # ------------------------
-espresso-core         = { module = "androidx.test.espresso:espresso-core",        version.ref = "espressoCore" }
-junit-jupiter-api     = { module = "org.junit.jupiter:junit-jupiter-api",       version.ref = "junitJupiterApi" }
-junit-jupiter-engine  = { module = "org.junit.jupiter:junit-jupiter-engine",    version.ref = "junitJupiterEngine" }
-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core",          version.ref = "kotestAssertionsCore" }
-kotest-property       = { module = "io.kotest:kotest-property",               version.ref = "kotestProperty" }
-kotest-runner-junit5  = { module = "io.kotest:kotest-runner-junit5",         version.ref = "kotestRunnerJunit5" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junitJupiterApi" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junitJupiterEngine" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestAssertionsCore" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotestProperty" }
+kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotestRunnerJunit5" }
 kotest-runner-junit5-jvm = { module = "io.kotest:kotest-runner-junit5-jvm" }
-mockito-core          = { module = "org.mockito:mockito-core",                 version.ref = "mockitoCore" }
-compose = { group = "com.github.bumptech.glide", name = "compose", version.ref = "composeVersion" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 #androidx-compose-material-material = { group = "androidx.compose.material", name = "material", version.ref = "materialVersion" }
 #androidx-material                   = { module = "androidx.compose.material:material" }
 

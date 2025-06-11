@@ -9,10 +9,8 @@ import com.elvinliang.aviation.utils.getJsonDataFromAsset
 import com.google.firebase.FirebaseApp
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-@AndroidEntryPoint
 class MapsActivity : AppCompatActivity() {
     private val airportList: List<AirportModel> by lazy {
         val jsonFileString: String? = getJsonDataFromAsset(this, "airportList.json")
@@ -24,7 +22,7 @@ class MapsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(this)
+
         setContent {
             LoginPageTheme {
                 LinkFlightApp(airportList)

@@ -1,15 +1,8 @@
 package com.elvinliang.aviation.presentation.viewmodel
 
-import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
-import android.os.Bundle
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,8 +10,7 @@ import com.elvinliang.aviation.data.ConfigRepository
 import com.elvinliang.aviation.model.service.AccountService
 import com.elvinliang.aviation.presentation.MapsActivity
 import com.elvinliang.aviation.presentation.component.settings.SettingsConfig
-import com.elvinliang.aviation.remote.FlightAwareService
-import com.elvinliang.aviation.remote.OpenSkyNetworkService
+import com.elvinliang.aviation.remote.OpenSkyNetworkApi
 import com.elvinliang.aviation.remote.dto.AirportModel
 import com.elvinliang.aviation.remote.dto.PlaneModel
 import com.elvinliang.aviation.remote.dto.PlaneModelDetail
@@ -27,9 +19,6 @@ import com.elvinliang.aviation.utils.AircraftListMapper
 import com.elvinliang.aviation.utils.ResponseMapper
 import com.elvinliang.aviation.utils.Timer
 import com.google.android.gms.maps.model.LatLng
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,13 +27,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@HiltViewModel
-class MainViewModel @Inject constructor(
-    private val openSkyNetworkService: OpenSkyNetworkService,
-    private val flightAwareService: FlightAwareService,
+class MainViewModel(
+    private val openSkyNetworkApi: OpenSkyNetworkApi,
     private val configRepository: ConfigRepository,
-    private val accountService: AccountService,
-    @ApplicationContext private val context: Context
+    private val accountService: AccountService
 ) : ViewModel(), DefaultLifecycleObserver {
     private val TAG = "ev_" + javaClass.simpleName
     private var lomax: Float = 122F
@@ -78,33 +64,34 @@ class MainViewModel @Inject constructor(
     private var locationManager: LocationManager? = null
 
     private fun startLocationUpdates() {
-        locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        locationManager?.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER, 5000L, 0f,
-            object : LocationListener {
-                override fun onLocationChanged(location: Location) {
-                    _state.value = _state.value.copy(
-                        currentPosition = LatLng(location.latitude, location.longitude)
-                    )
-                }
 
-                override fun onProviderEnabled(provider: String) {}
-
-                override fun onProviderDisabled(provider: String) {}
-
-                override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-            }
-        )
+//        locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//        if (ActivityCompat.checkSelfPermission(
+//                context,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+//                context,
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            return
+//        }
+//        locationManager?.requestLocationUpdates(
+//            LocationManager.GPS_PROVIDER, 5000L, 0f,
+//            object : LocationListener {
+//                override fun onLocationChanged(location: Location) {
+//                    _state.value = _state.value.copy(
+//                        currentPosition = LatLng(location.latitude, location.longitude)
+//                    )
+//                }
+//
+//                override fun onProviderEnabled(provider: String) {}
+//
+//                override fun onProviderDisabled(provider: String) {}
+//
+//                override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+//            }
+//        )
     }
 
 //    fun stopLocationUpdates() {
@@ -183,36 +170,36 @@ class MainViewModel @Inject constructor(
     fun showAircraftInfo(planeModel: PlaneModel) {
         var planeDetailRecords = emptyList<PlaneModelDetail>()
         var currentPlaneDetailRecord = PlaneModelDetail()
-        viewModelScope.launch {
-            kotlin.runCatching {
-                planeModel.callsign?.let {
-                    flightAwareService.getFlights(it, "designator")
-                }
-            }.onSuccess {
-                it?.body()?.flights?.let { list ->
-                    planeDetailRecords = list
-                    list.find { record ->
-                        record.status?.contains("途中") == true
-                    }?.run {
-                        currentPlaneDetailRecord = this
-                    }
-                }
-            }.onFailure {
-                Timber.tag(TAG).i("getFlights exception = $it")
-            }
-            _state.value = _state.value.copy(
-                planeDetailRecords = planeDetailRecords,
-                currentPlaneModelDetail = currentPlaneDetailRecord,
-                planeModel = planeModel,
-                isAirportInfoVisible = false,
-                isAircraftInfoVisible = true,
-                isMainControlPanelVisible = false,
-                isSettingPageVisible = false,
-                isMainSearchBarVisible = false,
-                isFilterPageVisible = false,
-                isPersonalDrawer = false
-            )
-        }
+//        viewModelScope.launch {
+//            kotlin.runCatching {
+//                planeModel.callsign?.let {
+//                    flightAwareService.getFlights(it, "designator")
+//                }
+//            }.onSuccess {
+//                it?.body()?.flights?.let { list ->
+//                    planeDetailRecords = list
+//                    list.find { record ->
+//                        record.status?.contains("途中") == true
+//                    }?.run {
+//                        currentPlaneDetailRecord = this
+//                    }
+//                }
+//            }.onFailure {
+//                Timber.tag(TAG).i("getFlights exception = $it")
+//            }
+//            _state.value = _state.value.copy(
+//                planeDetailRecords = planeDetailRecords,
+//                currentPlaneModelDetail = currentPlaneDetailRecord,
+//                planeModel = planeModel,
+//                isAirportInfoVisible = false,
+//                isAircraftInfoVisible = true,
+//                isMainControlPanelVisible = false,
+//                isSettingPageVisible = false,
+//                isMainSearchBarVisible = false,
+//                isFilterPageVisible = false,
+//                isPersonalDrawer = false
+//            )
+//        }
     }
 
     private fun fetchPlaneLocation() {
@@ -220,10 +207,11 @@ class MainViewModel @Inject constructor(
 
         viewModelScope.launch {
             kotlin.runCatching {
-                openSkyNetworkService.getPlaneLocation(lomax, lomin, lamax, lamin)
+                openSkyNetworkApi.getPlaneLocation(lomax, lomin, lamax, lamin)
             }.onSuccess {
                 val aircraftList = ResponseMapper.createMapper(it)
-                val aircraftMapperList = AircraftListMapper.createAircraftList(state.value.SettingsConfig, aircraftList)
+                val aircraftMapperList =
+                    AircraftListMapper.createAircraftList(state.value.SettingsConfig, aircraftList)
                 _state.value = _state.value.copy(
                     aircraftList = aircraftList,
                     aircraftMapperList = aircraftMapperList
@@ -236,42 +224,42 @@ class MainViewModel @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.S)
     fun updateCurrentPosition() {
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
+//        if (ActivityCompat.checkSelfPermission(
+//                context,
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+//                context,
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return
+//        }
 
-        val loc = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+//        val loc = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
 
-        if (loc != null) {
-            _state.value = _state.value.copy(
-                currentPosition = LatLng(loc.latitude, loc.longitude),
-                isAirportInfoVisible = false,
-                isAircraftInfoVisible = false,
-                isMainControlPanelVisible = true,
-                isAircraftDetailVisible = false,
-                isSettingPageVisible = false,
-                isMainSearchBarVisible = true,
-                isFilterPageVisible = false,
-                isSpotSheetVisible = false,
-                isSpotInfoVisible = false,
-                isFriendSheetVisible = false,
-                isPersonalDrawer = false
-            )
-        }
+//        if (loc != null) {
+//            _state.value = _state.value.copy(
+//                currentPosition = LatLng(loc.latitude, loc.longitude),
+//                isAirportInfoVisible = false,
+//                isAircraftInfoVisible = false,
+//                isMainControlPanelVisible = true,
+//                isAircraftDetailVisible = false,
+//                isSettingPageVisible = false,
+//                isMainSearchBarVisible = true,
+//                isFilterPageVisible = false,
+//                isSpotSheetVisible = false,
+//                isSpotInfoVisible = false,
+//                isFriendSheetVisible = false,
+//                isPersonalDrawer = false
+//            )
+//        }
     }
 
     fun showSettingsPage() {
@@ -342,7 +330,10 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             configRepository.saveConfig(settingsConfig)
             _state.value = _state.value.copy(
-                aircraftMapperList = AircraftListMapper.createAircraftList(settingsConfig, state.value.aircraftList)
+                aircraftMapperList = AircraftListMapper.createAircraftList(
+                    settingsConfig,
+                    state.value.aircraftList
+                )
             )
         }
     }
